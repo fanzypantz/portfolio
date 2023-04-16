@@ -6,7 +6,7 @@ export interface ChessTile {
   get position(): ChessPosition;
   equals(other: ChessTile): boolean;
   hasPiece(): boolean;
-  setPiece(piece: ChessPiece): void;
+  setPiece(piece: ChessPiece | undefined): void;
 }
 
 export class ChessTileImpl implements ChessTile {
@@ -34,7 +34,7 @@ export class ChessTileImpl implements ChessTile {
     return this.currentPiece !== undefined;
   }
 
-  public setPiece(piece: ChessPiece): void {
+  public setPiece(piece: ChessPiece | undefined): void {
     this.currentPiece = piece;
   }
 }

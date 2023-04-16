@@ -32,7 +32,7 @@ export class ChessBoardImpl implements ChessBoard {
     const toTile = this.getTileAt(to);
     if (fromTile && toTile) {
       toTile.setPiece(fromTile.piece);
-      fromTile.piece = undefined;
+      fromTile.setPiece(undefined);
     }
   }
 }

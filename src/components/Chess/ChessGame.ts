@@ -1,7 +1,7 @@
 import { ChessPosition } from "@components/Chess/ChessPosition";
 import { ChessBoard, ChessBoardImpl } from "@components/Chess/ChessBoard";
 import { ChessPlayer } from "@components/Chess/ChessPlayer";
-import { ChessMove } from "@components/Chess/ChessMove";
+import { ChessMove, ChessMoveImpl } from "@components/Chess/ChessMove";
 
 export interface ChessGame {
   get board(): ChessBoard;
@@ -22,8 +22,8 @@ export interface ChessGame {
 export class ChessGameImpl implements ChessGame {
   private readonly chessBoard: ChessBoard;
   private readonly chessPlayers: ChessPlayer[];
-  private readonly chessMoves: ChessMove[];
-  private readonly chessMovesIndex: number;
+  private chessMoves: ChessMove[];
+  private chessMovesIndex: number;
 
   constructor() {
     this.chessBoard = new ChessBoardImpl();
@@ -69,15 +69,33 @@ export class ChessGameImpl implements ChessGame {
   }
 
   public movePiece(from: ChessPosition, to: ChessPosition): void {
-    const piece = this.board.getTileAt(from)?.piece;
-    if (piece) {
-      piece;
+    // Add chess move to list at current index
+    this.chessMoves.splice(
+      this.chessMovesIndex,
+      this.chessMoves.length - this.chessMovesIndex,
+      new ChessMoveImpl(from, to)
+    );
+    this.chessMovesIndex++;
+    this.board.movePiece(from, to);
+  }
+
+  public undoMove(): void {
+    // Undo move at current index
+    if (this.chessMovesIndex > 0) {
+      this.chessMovesIndex--;
+      const move = this.chessMoves[this.chessMovesIndex];
+      this.board.movePiece(move.to, move.from);
     }
   }
 
-  public undoMove(): void {}
-
-  public redoMove(): void {}
+  public redoMove(): void {
+    // Redo move at current index
+    if (this.chessMovesIndex < this.chessMoves.length) {
+      const move = this.chessMoves[this.chessMovesIndex];
+      this.board.movePiece(move.from, move.to);
+      this.chessMovesIndex++;
+    }
+  }
 
   public reset(): void {}
 }
