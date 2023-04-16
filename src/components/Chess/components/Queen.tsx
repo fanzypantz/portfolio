@@ -10,7 +10,7 @@ const Queen = ({ useControls = false }) => {
   const gltf = useLoader(GLTFLoader, "/models/Queen.glb");
 
   return (
-    <PivotControls visible={useControls} scale={1}>
+    <PivotControls scale={0.3} anchor={[0, 0, 0]}>
       <StandardMesh gltf={gltf} />
     </PivotControls>
   );

@@ -5,7 +5,7 @@ export interface ChessPlayer {
   get color(): ChessColor;
 }
 
-class ChessPlayerImpl implements ChessPlayer {
+export class ChessPlayerImpl implements ChessPlayer {
   private readonly playerName: string;
   private readonly playerColor: ChessColor;
 

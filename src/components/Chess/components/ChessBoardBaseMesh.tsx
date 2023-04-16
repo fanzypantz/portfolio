@@ -6,14 +6,10 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import StandardMesh from "@components/3D/StandardMesh";
 
-const ChessBoardBaseMesh = ({ useControls = false }) => {
+const ChessBoardBaseMesh = () => {
   const gltf = useLoader(GLTFLoader, "/models/ChessTable.glb");
 
-  return (
-    <PivotControls visible={useControls} scale={1}>
-      <StandardMesh gltf={gltf} />
-    </PivotControls>
-  );
+  return <StandardMesh gltf={gltf} />;
 };
 
 export default ChessBoardBaseMesh;

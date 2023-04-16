@@ -4,6 +4,7 @@ import { ChessPosition } from "@components/Chess/ChessPosition";
 export interface ChessTile {
   get piece(): ChessPiece | undefined;
   get position(): ChessPosition;
+  get color(): string;
   equals(other: ChessTile): boolean;
   hasPiece(): boolean;
   setPiece(piece: ChessPiece | undefined): void;
@@ -12,10 +13,12 @@ export interface ChessTile {
 export class ChessTileImpl implements ChessTile {
   private readonly currentPosition: ChessPosition;
   private currentPiece?: ChessPiece;
+  private currentColor: string;
 
   constructor(position: ChessPosition, piece?: ChessPiece) {
     this.currentPosition = position;
     this.currentPiece = piece;
+    this.currentColor = (position.x + position.y) % 2 === 0 ? "white" : "black";
   }
 
   get piece(): ChessPiece | undefined {
@@ -24,6 +27,10 @@ export class ChessTileImpl implements ChessTile {
 
   get position(): ChessPosition {
     return this.currentPosition;
+  }
+
+  get color(): string {
+    return this.currentColor;
   }
 
   public equals(other: ChessTile): boolean {

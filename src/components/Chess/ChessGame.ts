@@ -1,5 +1,5 @@
 import { ChessPosition } from "@components/Chess/ChessPosition";
-import { ChessBoard, ChessBoardImpl } from "@components/Chess/ChessBoard";
+import { ChessBoard } from "@components/Chess/ChessBoard";
 import { ChessPlayer } from "@components/Chess/ChessPlayer";
 import { ChessMove, ChessMoveImpl } from "@components/Chess/ChessMove";
 
@@ -25,8 +25,8 @@ export class ChessGameImpl implements ChessGame {
   private chessMoves: ChessMove[];
   private chessMovesIndex: number;
 
-  constructor() {
-    this.chessBoard = new ChessBoardImpl();
+  constructor(chessBoard: ChessBoard, chessPlayers: ChessPlayer[]) {
+    this.chessBoard = chessBoard;
     this.chessPlayers = [];
     this.chessMoves = [];
     this.chessMovesIndex = 0;
