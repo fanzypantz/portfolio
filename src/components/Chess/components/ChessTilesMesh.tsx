@@ -1,9 +1,9 @@
 "use client";
 
-import { ChessGame } from "@components/Chess/ChessGame";
+import { Game } from "@components/Chess/Game";
 import ChessTileMesh from "@components/Chess/components/ChessTileMesh";
 
-const ChessTilesMesh = ({ chessGame }: { chessGame: ChessGame }) => {
+const ChessTilesMesh = ({ chessGame }: { chessGame: Game }) => {
   return (
     <group position={[-0.6, 0, -0.6]}>
       {chessGame.board.tiles.map((tile, index) => {

@@ -1,8 +1,8 @@
-export interface ChessColor {
+export interface Color {
   get name(): string;
 }
 
-export class ChessColorImpl implements ChessColor {
+export class AbstractColor implements Color {
   private readonly colorName: string;
 
   constructor(name: string) {

@@ -1,9 +1,9 @@
-export interface ChessPiece {
+export interface Piece {
   get type(): string;
   get color(): string;
 }
 
-export class ChessPieceImpl implements ChessPiece {
+export class AbstractPiece implements Piece {
   private readonly pieceType: string;
   private readonly pieceColor: string;
 

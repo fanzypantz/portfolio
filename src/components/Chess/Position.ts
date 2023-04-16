@@ -1,17 +1,17 @@
-export interface Position {
+export interface Vector2 {
   x: number;
   y: number;
 }
 
-export interface ChessPosition {
+export interface Position {
   get x(): number;
   get y(): number;
-  get currentPosition(): Position;
-  equals(other: ChessPosition): boolean;
+  get currentPosition(): Vector2;
+  equals(other: Position): boolean;
 }
 
-export class ChessPositionImpl implements ChessPosition {
-  private readonly position: Position;
+export class AbstractPosition implements Position {
+  private readonly position: Vector2;
 
   constructor(x: number, y: number) {
     this.position = { x, y };
@@ -25,11 +25,11 @@ export class ChessPositionImpl implements ChessPosition {
     return this.position.y;
   }
 
-  get currentPosition(): Position {
+  get currentPosition(): Vector2 {
     return this.position;
   }
 
-  public equals(other: ChessPosition): boolean {
+  public equals(other: Position): boolean {
     return this.x === other.x && this.y === other.y;
   }
 }
