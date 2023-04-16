@@ -2,17 +2,23 @@
 
 import { GLTF } from "three-stdlib";
 import { ObjectMap } from "@react-three/fiber";
-import { Vector3, Euler, Mesh } from "three";
+import { Vector3, Euler, Mesh, Material } from "three";
 
 const StandardMesh = ({
+  onPointerOver,
+  onPointerOut,
   children,
   gltf,
+  material,
   position = new Vector3(0, 0, 0),
   rotation = new Euler(0, 0, 0),
   scale = new Vector3(1, 1, 1)
 }: {
+  onPointerOver?: (e: any) => void;
+  onPointerOut?: (e: any) => void;
   children?: JSX.Element | JSX.Element[];
   gltf: GLTF & ObjectMap;
+  material?: Material;
   position?: Vector3;
   rotation?: Euler;
   scale?: Vector3;
@@ -27,7 +33,15 @@ const StandardMesh = ({
           }
 
           return (
-            <mesh key={index} receiveShadow castShadow geometry={node.geometry} material={node.material}>
+            <mesh
+              key={index}
+              onPointerOver={onPointerOver ? onPointerOver : undefined}
+              onPointerOut={onPointerOut ? onPointerOut : undefined}
+              receiveShadow
+              castShadow
+              geometry={node.geometry}
+              material={material ? material : node.material}
+            >
               {children}
             </mesh>
           );
