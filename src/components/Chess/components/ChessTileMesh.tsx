@@ -1,12 +1,11 @@
 "use client";
 
-import { PivotControls } from "@react-three/drei";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import StandardMesh from "@components/3D/StandardMesh";
-import { Tile } from "@components/Chess/Tile";
-import { MeshBasicMaterial, MeshPhysicalMaterial, Vector3 } from "three";
+import { Tile, TileColor } from "@components/BoardGame/Tile";
+import { MeshPhysicalMaterial, Vector3 } from "three";
 import { useState } from "react";
 
 const white = new MeshPhysicalMaterial({ color: 0xffffff });
@@ -28,7 +27,7 @@ const ChessTileMesh = ({ tile }: { tile: Tile }) => {
       onPointerOut={(e) => onHover(e, false)}
       gltf={gltf}
       position={new Vector3(tile.position.x / 5, 0, tile.position.y / 5)}
-      material={hovered ? hover : tile.color === "white" ? white : black}
+      material={hovered ? hover : tile.color === TileColor.White ? white : black}
     />
   );
 };
