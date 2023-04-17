@@ -4,28 +4,33 @@ import Renderer from "@components/3D/Renderer";
 import Lighting from "@components/3D/Lighting";
 import Controls from "@components/3D/Controls";
 
-// Chess classes
-import { Tile, AbstractTile } from "@components/Chess/Tile";
-import { Position, AbstractPosition } from "@components/Chess/Position";
+import ChessTilesMesh from "@components/Chess/components/ChessTilesMesh";
+
+// Game classes
+import ChessGame from "@components/Chess/ChessGame";
+import { AbstractBoard } from "@components/BoardGame/Board";
+import { AbstractPlayer } from "@components/BoardGame/Player";
+import { AbstractColor } from "@components/BoardGame/Color";
+import { PieceColor } from "@components/BoardGame/Piece";
+import { BoardPosition } from "@components/BoardGame/Position";
 
 // Board
 import ChessBoardBaseMesh from "@components/Chess/components/ChessBoardBaseMesh";
-import ChessTileMesh from "@components/Chess/components/ChessTileMesh";
 
 // Pieces
-import Queen from "@components/Chess/components/Queen";
-import { useState } from "react";
-import { AbstractGame } from "@components/Chess/Game";
-import { AbstractBoard } from "@components/Chess/Board";
-import { AbstractPlayer } from "@components/Chess/Player";
-import { AbstractColor } from "@components/Chess/Color";
-import ChessTilesMesh from "@components/Chess/components/ChessTilesMesh";
+import RookPiece from "@components/Chess/components/RookPiece";
+import { useEffect } from "react";
+import ChessBoard from "@components/Chess/ChessBoard";
 
 const ChessBoardRenderer = () => {
-  const chessGame = new AbstractGame(new AbstractBoard(), [
+  const chessGame = new ChessGame(new ChessBoard(), [
     new AbstractPlayer("Andreas", new AbstractColor("white")),
     new AbstractPlayer("Amalie", new AbstractColor("black"))
   ]);
+
+  // useEffect(() => {
+  //     chessGame.
+  // }, []);
 
   return (
     <Renderer>
@@ -33,7 +38,11 @@ const ChessBoardRenderer = () => {
       <Controls />
       <ChessBoardBaseMesh />
       <ChessTilesMesh chessGame={chessGame} />
-      <Queen />
+      <group position={[-0.7, 0, -0.7]}>
+        {chessGame.board.pieces.map((piece, index) => {
+          return <RookPiece key={index} color={piece.color} position={piece.position} />;
+        })}
+      </group>
     </Renderer>
   );
 };
