@@ -1,4 +1,4 @@
-import { Color } from "@components/Chess/Color";
+import { Color } from "@components/BoardGame/Color";
 
 export interface Player {
   get name(): string;

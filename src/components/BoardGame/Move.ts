@@ -1,4 +1,5 @@
-import { Position } from "@components/Chess/Position";
+import { Position } from "@components/BoardGame/Position";
+import { Tile } from "@components/BoardGame/Tile";
 
 export interface Move {
   get from(): Position;

@@ -10,7 +10,7 @@ export interface Position {
   equals(other: Position): boolean;
 }
 
-export class AbstractPosition implements Position {
+export class BoardPosition implements Position {
   private readonly position: Vector2;
 
   constructor(x: number, y: number) {

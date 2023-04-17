@@ -1,7 +1,7 @@
-import { Position } from "@components/Chess/Position";
-import { Board } from "@components/Chess/Board";
-import { Player } from "@components/Chess/Player";
-import { Move, AbstractMove } from "@components/Chess/Move";
+import { Position } from "@components/BoardGame/Position";
+import { Board } from "@components/BoardGame/Board";
+import { Player } from "@components/BoardGame/Player";
+import { Move, AbstractMove } from "@components/BoardGame/Move";
 
 export interface Game {
   get board(): Board;
@@ -43,27 +43,19 @@ export class AbstractGame implements Game {
   }
 
   public get winner(): Player | undefined {
-    return undefined;
+    throw new Error("Method not implemented.");
   }
 
   public get isOver(): boolean {
-    return false;
+    throw new Error("Method not implemented.");
   }
 
   public get isDraw(): boolean {
-    return false;
-  }
-
-  public get isCheck(): boolean {
-    return false;
-  }
-
-  public get isCheckmate(): boolean {
-    return false;
+    throw new Error("Method not implemented.");
   }
 
   public get isStalemate(): boolean {
-    return false;
+    throw new Error("Method not implemented.");
   }
 
   public movePiece(from: Position, to: Position): void {
@@ -91,5 +83,7 @@ export class AbstractGame implements Game {
     }
   }
 
-  public reset(): void {}
+  public reset(): void {
+    throw new Error("Method not implemented.");
+  }
 }
