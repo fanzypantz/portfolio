@@ -2,7 +2,6 @@ import { AbstractPiece, PieceColor } from "@components/BoardGame/Piece";
 import { BoardPosition, Position } from "@components/BoardGame/Position";
 import { Board } from "@components/BoardGame/Board";
 import { AbstractMove } from "@components/BoardGame/Move";
-import { Color } from "@components/BoardGame/Color";
 import { ChessPieceType } from "@components/Chess/Rook";
 
 class Bishop extends AbstractPiece {
