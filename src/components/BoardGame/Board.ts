@@ -25,8 +25,8 @@ export class AbstractBoard implements Board {
     this.boardHeight = height;
 
     this.boardTiles = [];
-    for (let x = 0; x < width; x++) {
-      for (let y = 0; y < height; y++) {
+    for (let y = 0; y < width; y++) {
+      for (let x = 0; x < height; x++) {
         this.boardTiles.push(new AbstractTile(new BoardPosition(x, y)));
       }
     }
