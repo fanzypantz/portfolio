@@ -5,12 +5,9 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import StandardMesh from "@components/3D/StandardMesh";
 import { Tile, TileColor } from "@components/BoardGame/Tile";
-import { MeshPhysicalMaterial, Vector3 } from "three";
+import { Vector3 } from "three";
 import { useState } from "react";
-
-const white = new MeshPhysicalMaterial({ color: 0xffffff });
-const black = new MeshPhysicalMaterial({ color: 0x000000 });
-const hover = new MeshPhysicalMaterial({ color: 0x00ff00 });
+import { black, hover, white } from "@components/BoardGame/Materials";
 
 const ChessTileMesh = ({ tile }: { tile: Tile }) => {
   const gltf = useLoader(GLTFLoader, "/models/ChessTile.glb");
@@ -21,12 +18,18 @@ const ChessTileMesh = ({ tile }: { tile: Tile }) => {
     setHovered(value);
   };
 
+  const onClick = (e: any) => {
+    e.stopPropagation();
+    console.log(`Clicked a tile in ${tile.position.toString()}`);
+  };
+
   return (
     <StandardMesh
       onPointerOver={(e) => onHover(e, true)}
       onPointerOut={(e) => onHover(e, false)}
+      onClick={(e) => onClick(e)}
       gltf={gltf}
-      position={new Vector3(tile.position.x / 5, 0, tile.position.y / 5)}
+      position={new Vector3(tile.position.y / 5, 0, tile.position.x / 5)}
       material={hovered ? hover : tile.color === TileColor.White ? white : black}
     />
   );
