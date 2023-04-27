@@ -1,12 +1,15 @@
 "use client";
 
 import { GLTF } from "three-stdlib";
-import { ObjectMap } from "@react-three/fiber";
-import { Vector3, Euler, Mesh, Material } from "three";
+import { Ref } from "react";
+import { ObjectMap, ThreeEvent } from "@react-three/fiber";
+import { Vector3, Euler, Mesh, Material, Group } from "three";
 
 const StandardMesh = ({
+  meshRef,
   onPointerOver,
   onPointerOut,
+  onClick,
   children,
   gltf,
   material,
@@ -14,8 +17,10 @@ const StandardMesh = ({
   rotation = new Euler(0, 0, 0),
   scale = new Vector3(1, 1, 1)
 }: {
+  meshRef?: Ref<Group>;
   onPointerOver?: (e: any) => void;
   onPointerOut?: (e: any) => void;
+  onClick?: (e: ThreeEvent<MouseEvent>) => void;
   children?: JSX.Element | JSX.Element[];
   gltf: GLTF & ObjectMap;
   material?: Material;
@@ -23,8 +28,15 @@ const StandardMesh = ({
   rotation?: Euler;
   scale?: Vector3;
 }) => {
+  const handleClick = (e: ThreeEvent<MouseEvent>) => {
+    e.stopPropagation();
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
   return (
-    <group position={position} rotation={rotation} scale={scale.multiplyScalar(10)}>
+    <group ref={meshRef} position={position} rotation={rotation} scale={scale.multiplyScalar(10)}>
       {gltf.nodes &&
         Object.keys(gltf.nodes).map((key, index) => {
           const node = gltf.nodes[key] as Mesh;
@@ -37,6 +49,7 @@ const StandardMesh = ({
               key={index}
               onPointerOver={onPointerOver ? onPointerOver : undefined}
               onPointerOut={onPointerOut ? onPointerOut : undefined}
+              onClick={handleClick}
               receiveShadow
               castShadow
               geometry={node.geometry}
