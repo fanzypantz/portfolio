@@ -1,7 +1,6 @@
 import { Move } from "@components/BoardGame/Move";
 import { Position } from "@components/BoardGame/Position";
 import { Board } from "@components/BoardGame/Board";
-import { Color } from "@components/BoardGame/Color";
 
 export enum PieceColor {
   White = "White",
