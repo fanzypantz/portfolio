@@ -8,6 +8,7 @@ export interface Position {
   get y(): number;
   get currentPosition(): Vector2;
   equals(other: Position): boolean;
+  toString(): string;
 }
 
 export class BoardPosition implements Position {
@@ -31,5 +32,10 @@ export class BoardPosition implements Position {
 
   public equals(other: Position): boolean {
     return this.x === other.x && this.y === other.y;
+  }
+
+  public toString(): string {
+    // Return a string representation of the position with the format "A1, B2, C3, etc."
+    return String.fromCharCode(65 + this.x) + (this.y + 1);
   }
 }
