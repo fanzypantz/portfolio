@@ -1,15 +1,15 @@
 "use client";
 
-import { PivotControls } from "@react-three/drei";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import StandardMesh from "@components/3D/StandardMesh";
+import { woodDark } from "@components/BoardGame/Materials";
 
 const ChessBoardBaseMesh = () => {
   const gltf = useLoader(GLTFLoader, "/models/ChessTable.glb");
 
-  return <StandardMesh gltf={gltf} />;
+  return <StandardMesh gltf={gltf} material={woodDark} />;
 };
 
 export default ChessBoardBaseMesh;
