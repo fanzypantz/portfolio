@@ -1,4 +1,6 @@
 "use client";
+import { useEffect } from "react";
+import { Stats } from "@react-three/drei";
 
 import Renderer from "@components/3D/Renderer";
 import Lighting from "@components/3D/Lighting";
@@ -8,41 +10,37 @@ import ChessTilesMesh from "@components/Chess/components/ChessTilesMesh";
 
 // Game classes
 import ChessGame from "@components/Chess/ChessGame";
-import { AbstractBoard } from "@components/BoardGame/Board";
-import { AbstractPlayer } from "@components/BoardGame/Player";
-import { AbstractColor } from "@components/BoardGame/Color";
+import ChessBoard from "@components/Chess/ChessBoard";
 import { PieceColor } from "@components/BoardGame/Piece";
-import { BoardPosition } from "@components/BoardGame/Position";
+import { AbstractPlayer } from "@components/BoardGame/Player";
+import { AbstractGameScore } from "@components/BoardGame/GameScore";
 
 // Board
 import ChessBoardBaseMesh from "@components/Chess/components/ChessBoardBaseMesh";
 
 // Pieces
-import RookPiece from "@components/Chess/components/RookPiece";
-import { useEffect } from "react";
-import ChessBoard from "@components/Chess/ChessBoard";
+import ChessPiece from "@components/Chess/components/ChessPiece";
 
 const ChessBoardRenderer = () => {
-  const chessGame = new ChessGame(new ChessBoard(), [
-    new AbstractPlayer("Andreas", new AbstractColor("white")),
-    new AbstractPlayer("Amalie", new AbstractColor("black"))
-  ]);
-
-  // useEffect(() => {
-  //     chessGame.
-  // }, []);
+  const chessGame = new ChessGame(
+    new ChessBoard(),
+    [new AbstractPlayer("Andreas", PieceColor.White), new AbstractPlayer("Amalie", PieceColor.Black)],
+    new AbstractGameScore()
+  );
 
   return (
     <Renderer>
+      <Stats />
       <Lighting />
       <Controls />
       <ChessBoardBaseMesh />
       <ChessTilesMesh chessGame={chessGame} />
-      <group position={[-0.7, 0, -0.7]}>
+
+      <>
         {chessGame.board.pieces.map((piece, index) => {
-          return <RookPiece key={index} color={piece.color} position={piece.position} />;
+          return <ChessPiece key={index} piece={piece} />;
         })}
-      </group>
+      </>
     </Renderer>
   );
 };
