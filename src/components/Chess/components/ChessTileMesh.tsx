@@ -6,10 +6,13 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import StandardMesh from "@components/3D/StandardMesh";
 import { Tile, TileColor } from "@components/BoardGame/Tile";
 import { Vector3 } from "three";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { black, hover, white } from "@components/BoardGame/Materials";
+import { ChessContext } from "@components/Chess/components/chessProvider";
 
 const ChessTileMesh = ({ tile }: { tile: Tile }) => {
+  const { chessGame } = useContext(ChessContext);
+
   const gltf = useLoader(GLTFLoader, "/models/ChessTile.glb");
   const [hovered, setHovered] = useState(false);
 
@@ -20,7 +23,13 @@ const ChessTileMesh = ({ tile }: { tile: Tile }) => {
 
   const onClick = (e: any) => {
     e.stopPropagation();
-    console.log(`Clicked a tile in ${tile.position.toString()}`);
+    if (chessGame && chessGame.board.selectedPiece) {
+      console.log(
+        `Moved a piece from ${chessGame.board.selectedPiece.position.toString()} to ${tile.position.toString()}`
+      );
+
+      chessGame.movePiece(chessGame.board.selectedPiece.position, tile.position);
+    }
   };
 
   return (
