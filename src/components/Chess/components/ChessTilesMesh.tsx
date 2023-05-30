@@ -1,13 +1,18 @@
 "use client";
 
-import { Game } from "@components/BoardGame/Game";
 import ChessTileMesh from "@components/Chess/components/ChessTileMesh";
+import { useContext } from "react";
+import { ChessContext } from "@components/Chess/components/chessProvider";
 
-const ChessTilesMesh = ({ chessGame }: { chessGame: Game }) => {
+const ChessTilesMesh = () => {
+  const { chessGame } = useContext(ChessContext);
+
   return (
     <group position={[-0.6, 0, -0.6]}>
-      {chessGame.board.tiles.map((tile, index) => {
-        return <ChessTileMesh key={index} tile={tile} />;
+      {chessGame?.board.tiles.flatMap((row, rowIndex) => {
+        return row.map((tile, columnIndex) => {
+          return <ChessTileMesh key={`${rowIndex}-${columnIndex}`} tile={tile} />;
+        });
       })}
     </group>
   );
