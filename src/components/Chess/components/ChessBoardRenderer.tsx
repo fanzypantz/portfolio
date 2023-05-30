@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useContext } from "react";
 import { Stats } from "@react-three/drei";
 
 import Renderer from "@components/3D/Renderer";
@@ -9,24 +9,22 @@ import Controls from "@components/3D/Controls";
 import ChessTilesMesh from "@components/Chess/components/ChessTilesMesh";
 
 // Game classes
-import ChessGame from "@components/Chess/ChessGame";
-import ChessBoard from "@components/Chess/ChessBoard";
-import { PieceColor } from "@components/BoardGame/Piece";
-import { AbstractPlayer } from "@components/BoardGame/Player";
-import { AbstractGameScore } from "@components/BoardGame/GameScore";
+import { Piece, PieceColor } from "@components/BoardGame/Piece";
 
 // Board
 import ChessBoardBaseMesh from "@components/Chess/components/ChessBoardBaseMesh";
 
 // Pieces
 import ChessPiece from "@components/Chess/components/ChessPiece";
+import { ChessContext } from "@components/Chess/components/chessProvider";
+import ChessPieces from "@components/Chess/components/ChessPieces";
 
 const ChessBoardRenderer = () => {
-  const chessGame = new ChessGame(
-    new ChessBoard(),
-    [new AbstractPlayer("Andreas", PieceColor.White), new AbstractPlayer("Amalie", PieceColor.Black)],
-    new AbstractGameScore()
-  );
+  const { chessGame } = useContext(ChessContext);
+
+  if (!chessGame || !chessGame.board || !chessGame.board.pieces) {
+    return null;
+  }
 
   return (
     <Renderer>
@@ -34,13 +32,8 @@ const ChessBoardRenderer = () => {
       <Lighting />
       <Controls />
       <ChessBoardBaseMesh />
-      <ChessTilesMesh chessGame={chessGame} />
-
-      <>
-        {chessGame.board.pieces.map((piece, index) => {
-          return <ChessPiece key={index} piece={piece} />;
-        })}
-      </>
+      <ChessTilesMesh />
+      <ChessPieces />
     </Renderer>
   );
 };
