@@ -80,6 +80,7 @@ export class AbstractBoard implements Board {
 
   public selectPiece(piece: Piece): void {
     this.selectedPiece = piece;
+    this.selectedPiece.generatePossibleMoves(this);
   }
 
   public unselectPiece(): void {
@@ -89,7 +90,15 @@ export class AbstractBoard implements Board {
   public movePiece(from: Position, to: Position): void {
     const fromTile = this.getTileAt(from);
     const toTile = this.getTileAt(to);
-    if (fromTile && toTile && this.isValidPosition(toTile.position) && this.inBounds(toTile.position)) {
+    if (!fromTile || !toTile) {
+      return;
+    }
+
+    const isSameColor = fromTile.piece?.color === toTile.piece?.color;
+    const isValidMove = this.isValidPosition(toTile.position);
+    const isInBounds = this.inBounds(toTile.position);
+
+    if (!isSameColor && isValidMove && isInBounds) {
       if (toTile.hasPiece()) {
         // capture piece
         // const capturedPiece = toTile.piece;
