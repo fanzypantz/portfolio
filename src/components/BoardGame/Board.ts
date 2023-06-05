@@ -10,6 +10,9 @@ export interface Board {
   get pieces(): Piece[];
   selectedPiece: Piece | undefined;
   getTileAt(position: Position): Tile | undefined;
+  getPieceAt(position: Position): Piece | undefined;
+  addPiece(piece: Piece): void;
+  removePiece(piece: Piece): void;
 
   initBoard(): void;
   inBounds(position: Position): boolean;
@@ -23,7 +26,8 @@ export interface Board {
 export class AbstractBoard implements Board {
   private readonly boardWidth: number;
   private readonly boardHeight: number;
-  public readonly boardTiles: Tile[][];
+  public readonly boardTiles: Tile[][] = [];
+  public boardPieces: Piece[] = [];
   public selectedPiece: Piece | undefined = undefined;
 
   constructor(width: number, height: number) {
@@ -54,16 +58,23 @@ export class AbstractBoard implements Board {
   }
 
   public get pieces(): Piece[] {
-    return this.boardTiles.flat().reduce((pieces: Piece[], tile) => {
-      if (tile.hasPiece()) {
-        pieces.push(tile.piece as Piece);
-      }
-      return pieces;
-    }, []);
+    return this.boardPieces;
   }
 
   public getTileAt(position: Position): Tile | undefined {
     return this.boardTiles[position.y][position.x];
+  }
+
+  public getPieceAt(position: Position): Piece | undefined {
+    return this.boardPieces.find((piece) => piece.position.equals(position));
+  }
+
+  public addPiece(piece: Piece): void {
+    this.boardPieces.push(piece);
+  }
+
+  public removePiece(piece: Piece): void {
+    this.boardPieces = this.boardPieces.filter((p) => p !== piece);
   }
 
   public initBoard(): void {
@@ -90,25 +101,25 @@ export class AbstractBoard implements Board {
   public movePiece(from: Position, to: Position): void {
     const fromTile = this.getTileAt(from);
     const toTile = this.getTileAt(to);
-    if (!fromTile || !toTile) {
+    const fromPiece = this.getPieceAt(from);
+    const toPiece = this.getPieceAt(to);
+    if (!fromTile || !toTile || !fromPiece) {
       return;
     }
 
-    const isSameColor = fromTile.piece?.color === toTile.piece?.color;
+    const isSameColor = fromPiece?.color === toPiece?.color;
     const isValidMove = this.isValidPosition(toTile.position);
     const isInBounds = this.inBounds(toTile.position);
 
     if (!isSameColor && isValidMove && isInBounds) {
-      if (toTile.hasPiece()) {
+      if (toPiece) {
         // capture piece
         // const capturedPiece = toTile.piece;
         // capturedPiece?.setCaptured(true);
-        toTile.removePiece();
+        this.removePiece(toPiece);
       }
 
-      toTile.setPiece(fromTile.piece);
-      toTile.piece?.setPosition(toTile.position);
-      fromTile.removePiece();
+      fromPiece.setPosition(toTile.position);
     }
   }
 
@@ -118,9 +129,10 @@ export class AbstractBoard implements Board {
       // start from the top row
       for (let x = 0; x < this.width; x++) {
         const tile = this.boardTiles[y][x];
-        if (tile.piece) {
+        const piece = this.getPieceAt(tile.position);
+        if (piece) {
           // You can replace this with the actual symbol or name of the piece
-          boardRepresentation += ` ${tile.piece.toString()} `;
+          boardRepresentation += ` ${piece.toString()} `;
         } else {
           boardRepresentation += " . ";
         }
