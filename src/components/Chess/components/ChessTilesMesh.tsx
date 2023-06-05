@@ -5,11 +5,11 @@ import { useContext } from "react";
 import { ChessContext } from "@components/Chess/components/chessProvider";
 
 const ChessTilesMesh = () => {
-  const { tiles } = useContext(ChessContext);
+  const { board } = useContext(ChessContext);
 
   return (
     <group position={[-0.6, 0, -0.6]}>
-      {tiles?.flatMap((row, rowIndex) => {
+      {board?.tiles?.flatMap((row, rowIndex) => {
         return row.map((tile, columnIndex) => {
           return <ChessTileMesh key={`${rowIndex}-${columnIndex}`} tile={tile} />;
         });

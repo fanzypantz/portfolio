@@ -31,8 +31,8 @@ export class AbstractPiece implements Piece {
 
     makeObservable(this, {
       position: observable,
-      possibleMoves: observable,
-      setPosition: action
+      setPosition: action,
+      possibleMoves: observable
     });
   }
 

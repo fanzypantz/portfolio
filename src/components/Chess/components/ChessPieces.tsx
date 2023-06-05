@@ -4,9 +4,9 @@ import { ChessContext } from "@components/Chess/components/chessProvider";
 import { observer } from "mobx-react-lite";
 
 const ChessPieces = observer(() => {
-  const { board, pieces } = useContext(ChessContext);
+  const { board } = useContext(ChessContext);
 
-  if (!board || !pieces) {
+  if (!board) {
     return null;
   }
 
@@ -14,7 +14,7 @@ const ChessPieces = observer(() => {
 
   return (
     <>
-      {pieces.map((piece, index) => {
+      {board.pieces.map((piece, index) => {
         return <ChessPiece key={index} piece={piece} />;
       })}
     </>
