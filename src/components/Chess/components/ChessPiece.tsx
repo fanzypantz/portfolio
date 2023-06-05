@@ -13,7 +13,7 @@ import { ChessContext } from "@components/Chess/components/chessProvider";
 
 const ChessPiece = observer(({ piece, onPieceClick }: { piece: Piece; onPieceClick?: (piece: Piece) => void }) => {
   const gltf = useLoader(GLTFLoader, `/models/${piece.type}.glb`);
-  const { chessGame } = useContext(ChessContext);
+  const { game } = useContext(ChessContext);
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -30,15 +30,15 @@ const ChessPiece = observer(({ piece, onPieceClick }: { piece: Piece; onPieceCli
   };
 
   const handlePieceClick = () => {
-    if (chessGame?.board.selectedPiece?.position.equals(piece.position)) {
-      chessGame?.board.unselectPiece();
+    if (game?.board.selectedPiece?.position.equals(piece.position)) {
+      game?.board.unselectPiece();
     } else {
-      chessGame?.board.selectPiece(piece);
+      game?.board.selectPiece(piece);
     }
   };
 
   const getMaterial = () => {
-    if (chessGame?.board.selectedPiece?.position.equals(piece.position)) {
+    if (game?.board.selectedPiece?.position.equals(piece.position)) {
       return selected;
     } else if (isHovered) {
       return hover;

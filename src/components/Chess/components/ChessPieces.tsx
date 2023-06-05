@@ -4,17 +4,17 @@ import { ChessContext } from "@components/Chess/components/chessProvider";
 import { observer } from "mobx-react-lite";
 
 const ChessPieces = observer(() => {
-  const { chessGame } = useContext(ChessContext);
+  const { board, pieces } = useContext(ChessContext);
 
-  if (!chessGame) {
+  if (!board || !pieces) {
     return null;
   }
 
-  chessGame.board.debugPrint();
+  board.debugPrint();
 
   return (
     <>
-      {chessGame.board.pieces.map((piece, index) => {
+      {pieces.map((piece, index) => {
         return <ChessPiece key={index} piece={piece} />;
       })}
     </>

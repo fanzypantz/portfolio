@@ -29,6 +29,7 @@ export class AbstractBoard implements Board {
   public readonly boardTiles: Tile[][] = [];
   public boardPieces: Piece[] = [];
   public selectedPiece: Piece | undefined = undefined;
+  public selectedTiles: Tile[] = [];
 
   constructor(width: number, height: number) {
     this.boardWidth = width;
@@ -39,6 +40,8 @@ export class AbstractBoard implements Board {
     );
 
     makeObservable(this, {
+      boardPieces: observable,
+      boardTiles: observable,
       selectedPiece: observable,
       selectPiece: action,
       unselectPiece: action

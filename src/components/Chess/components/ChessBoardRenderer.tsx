@@ -20,9 +20,9 @@ import { ChessContext } from "@components/Chess/components/chessProvider";
 import ChessPieces from "@components/Chess/components/ChessPieces";
 
 const ChessBoardRenderer = () => {
-  const { chessGame } = useContext(ChessContext);
+  const { game } = useContext(ChessContext);
 
-  if (!chessGame || !chessGame.board || !chessGame.board.pieces) {
+  if (!game || !game.board || !game.board.pieces) {
     return null;
   }
 

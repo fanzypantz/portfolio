@@ -18,31 +18,40 @@ class Pawn extends AbstractPiece {
     const direction = this.color === PieceColor.White ? 1 : -1;
 
     // Check the square directly in front of the pawn
-    const targetTile = board.getTileAt(new BoardPosition(x, y + direction));
-    if (targetTile && !targetTile.piece) {
+    const frontTile = new BoardPosition(x, y + direction);
+    if (!board.getPieceAt(frontTile)) {
       // Pawn can move one square forward if the square is empty
-      this.possibleMoves.push(new AbstractMove(this.position, new BoardPosition(x, y + direction)));
+      this.possibleMoves.push(new AbstractMove(this.position, frontTile));
 
       // Check if the pawn is in its starting position and if the two squares in front are empty
-      if ((this.color === PieceColor.White && y === 6) || (this.color === PieceColor.Black && y === 1)) {
-        const twoSquaresAhead = board.getTileAt(new BoardPosition(x, y + 2 * direction));
-        if (twoSquaresAhead && !twoSquaresAhead.piece) {
+      if ((this.color === PieceColor.White && y === 1) || (this.color === PieceColor.Black && y === 6)) {
+        const twoSquaresAhead = new BoardPosition(x, y + 2 * direction);
+        if (!board.getPieceAt(twoSquaresAhead)) {
           // Pawn can move two squares forward if both squares are empty
-          this.possibleMoves.push(new AbstractMove(this.position, new BoardPosition(x, y + 2 * direction)));
+          this.possibleMoves.push(new AbstractMove(this.position, twoSquaresAhead));
         }
       }
     }
 
     // Check the two diagonal squares for potential captures
-    const leftDiagonal = board.getTileAt(new BoardPosition(x - 1, y + direction));
-    if (leftDiagonal && leftDiagonal.piece && leftDiagonal.piece.color !== this.color) {
-      this.possibleMoves.push(new AbstractMove(this.position, new BoardPosition(x - 1, y + direction)));
+    const leftDiagonal = new BoardPosition(x - 1, y + direction);
+    const rightDiagonal = new BoardPosition(x + 1, y + direction);
+    const leftPiece = board.getPieceAt(leftDiagonal);
+    const rightPiece = board.getPieceAt(rightDiagonal);
+
+    if (leftPiece && leftPiece.color !== this.color) {
+      this.possibleMoves.push(new AbstractMove(this.position, leftDiagonal));
+    }
+    if (rightPiece && rightPiece.color !== this.color) {
+      this.possibleMoves.push(new AbstractMove(this.position, rightDiagonal));
     }
 
-    const rightDiagonal = board.getTileAt(new BoardPosition(x + 1, y + direction));
-    if (rightDiagonal && rightDiagonal.piece && rightDiagonal.piece.color !== this.color) {
-      this.possibleMoves.push(new AbstractMove(this.position, new BoardPosition(x + 1, y + direction)));
-    }
+    console.log(
+      "moves : ",
+      this.possibleMoves.map((move) => {
+        return move.toString();
+      })
+    );
   }
 }
 

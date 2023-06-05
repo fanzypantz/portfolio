@@ -11,7 +11,7 @@ import { black, hover, white } from "@components/BoardGame/Materials";
 import { ChessContext } from "@components/Chess/components/chessProvider";
 
 const ChessTileMesh = ({ tile }: { tile: Tile }) => {
-  const { chessGame } = useContext(ChessContext);
+  const { game } = useContext(ChessContext);
 
   const gltf = useLoader(GLTFLoader, "/models/ChessTile.glb");
   const [hovered, setHovered] = useState(false);
@@ -23,12 +23,10 @@ const ChessTileMesh = ({ tile }: { tile: Tile }) => {
 
   const onClick = (e: any) => {
     e.stopPropagation();
-    if (chessGame && chessGame.board.selectedPiece) {
-      console.log(
-        `Moved a piece from ${chessGame.board.selectedPiece.position.toString()} to ${tile.position.toString()}`
-      );
+    if (game && game.board.selectedPiece) {
+      console.log(`Moved a piece from ${game.board.selectedPiece.position.toString()} to ${tile.position.toString()}`);
 
-      chessGame.movePiece(chessGame.board.selectedPiece.position, tile.position);
+      game.movePiece(game.board.selectedPiece.position, tile.position);
     }
   };
 

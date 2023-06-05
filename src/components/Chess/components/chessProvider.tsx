@@ -4,9 +4,14 @@ import ChessBoard from "@components/Chess/ChessBoard";
 import { AbstractPlayer } from "@components/BoardGame/Player";
 import { Piece, PieceColor } from "@components/BoardGame/Piece";
 import { AbstractGameScore } from "@components/BoardGame/GameScore";
+import { Board } from "@components/BoardGame/Board";
+import { Tile } from "@components/BoardGame/Tile";
 
 export interface ChessContextInterface {
-  chessGame: ChessGame | null;
+  game: ChessGame | null;
+  board: Board | null;
+  pieces: Piece[];
+  tiles: Tile[][] | null;
 }
 
 export const ChessContext = createContext({} as ChessContextInterface);
@@ -26,7 +31,10 @@ export const ChessProvider = ({ children }: { children: JSX.Element | JSX.Elemen
   return (
     <ChessContext.Provider
       value={{
-        chessGame
+        game: chessGame,
+        board: chessGame ? chessGame.board : null,
+        pieces: chessGame ? chessGame.board.pieces : [],
+        tiles: chessGame ? chessGame.board.tiles : []
       }}
     >
       {children}
