@@ -15,7 +15,7 @@ class Pawn extends AbstractPiece {
     const { x, y } = this.position.currentPosition;
 
     // Determine the direction of movement based on the color of the pawn
-    const direction = this.color === PieceColor.White ? -1 : 1;
+    const direction = this.color === PieceColor.White ? 1 : -1;
 
     // Check the square directly in front of the pawn
     const targetTile = board.getTileAt(new BoardPosition(x, y + direction));
