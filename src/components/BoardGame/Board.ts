@@ -29,7 +29,6 @@ export class AbstractBoard implements Board {
   public readonly boardTiles: Tile[][] = [];
   public boardPieces: Piece[] = [];
   public selectedPiece: Piece | undefined = undefined;
-  public selectedTiles: Tile[] = [];
 
   constructor(width: number, height: number) {
     this.boardWidth = width;
