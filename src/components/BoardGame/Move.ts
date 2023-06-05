@@ -4,6 +4,7 @@ import { Tile } from "@components/BoardGame/Tile";
 export interface Move {
   get from(): Position;
   get to(): Position;
+  toString(): string;
 }
 
 export class AbstractMove implements Move {
@@ -21,5 +22,11 @@ export class AbstractMove implements Move {
 
   public get to(): Position {
     return this.toMove;
+  }
+
+  public toString(): string {
+    console.log("this.from : ", this.from);
+    console.log("this.to : ", this.to);
+    return `${this.from.toString()} -> ${this.to.toString()}`;
   }
 }
