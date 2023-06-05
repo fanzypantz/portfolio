@@ -11,15 +11,18 @@ export interface Tile {
   get piece(): Piece | undefined;
   get color(): TileColor;
   get position(): Position;
+  get active(): boolean;
   equals(other: Tile): boolean;
   hasPiece(): boolean;
   setPiece(piece: Piece | undefined): void;
+  setActiveStatus(active: boolean): void;
   removePiece(): void;
 }
 
 export class AbstractTile implements Tile {
   private readonly tilePosition: Position;
   private readonly tileColor: TileColor;
+  public active: boolean = false;
   public tilePiece?: Piece;
 
   constructor(position: Position, piece?: Piece) {
@@ -28,6 +31,8 @@ export class AbstractTile implements Tile {
     this.tilePiece = piece;
 
     makeObservable(this, {
+      active: observable,
+      setActiveStatus: action,
       tilePiece: observable,
       setPiece: action,
       removePiece: action
@@ -56,6 +61,10 @@ export class AbstractTile implements Tile {
 
   public setPiece(piece: Piece | undefined): void {
     this.tilePiece = piece;
+  }
+
+  public setActiveStatus(active: boolean): void {
+    this.active = active;
   }
 
   public removePiece(): void {
