@@ -2,15 +2,7 @@ import { AbstractPiece, PieceColor } from "@components/BoardGame/Piece";
 import { BoardPosition, Position } from "@components/BoardGame/Position";
 import { Board } from "@components/BoardGame/Board";
 import { AbstractMove } from "@components/BoardGame/Move";
-
-export enum ChessPieceType {
-  King = "King",
-  Queen = "Queen",
-  Rook = "Rook",
-  Bishop = "Bishop",
-  Knight = "Knight",
-  Pawn = "Pawn"
-}
+import { ChessPieceType } from "@components/Chess/Pawn";
 
 class Rook extends AbstractPiece {
   constructor(color: PieceColor, position: Position) {
@@ -22,34 +14,29 @@ class Rook extends AbstractPiece {
 
     const { x, y } = this.position.currentPosition;
 
-    // Check squares along the same rank
-    for (let fileIndex = 0; fileIndex < 8; fileIndex++) {
-      if (fileIndex !== x) {
-        const targetTile = board.getTileAt(new BoardPosition(fileIndex, y));
-        const targetPiece = targetTile?.piece;
+    // Rooks can move in four straight-line directions
+    const directions = [
+      { dx: 1, dy: 0 }, // right
+      { dx: -1, dy: 0 }, // left
+      { dx: 0, dy: 1 }, // up
+      { dx: 0, dy: -1 } // down
+    ];
 
-        if (!targetPiece || targetPiece.color !== this.color) {
-          this.possibleMoves.push(new AbstractMove(this.position, new BoardPosition(fileIndex, y)));
-        }
+    for (const { dx, dy } of directions) {
+      for (let i = 1; i < 8; i++) {
+        const targetPosition = new BoardPosition(x + dx * i, y + dy * i);
+        const targetPiece = board.getPieceAt(targetPosition);
 
-        if (targetPiece && targetPiece.color !== this.color) {
-          break; // Can't go past an enemy piece
-        }
-      }
-    }
-
-    // Check squares along the same file
-    for (let rankIndex = 0; rankIndex < 8; rankIndex++) {
-      if (rankIndex !== y) {
-        const targetTile = board.getTileAt(new BoardPosition(x, rankIndex));
-        const targetPiece = targetTile?.piece;
-
-        if (!targetPiece || targetPiece.color !== this.color) {
-          this.possibleMoves.push(new AbstractMove(this.position, new BoardPosition(x, rankIndex)));
-        }
-
-        if (targetPiece && targetPiece.color !== this.color) {
-          break; // Can't go past an enemy piece
+        if (!targetPiece) {
+          // Rook can move to an empty tile
+          this.possibleMoves.push(new AbstractMove(this.position, targetPosition));
+        } else {
+          if (targetPiece.color !== this.color) {
+            // Rook can capture an enemy piece
+            this.possibleMoves.push(new AbstractMove(this.position, targetPosition));
+          }
+          // Rook can't jump over a piece, so break the loop
+          break;
         }
       }
     }

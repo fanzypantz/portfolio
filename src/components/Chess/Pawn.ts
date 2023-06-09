@@ -2,7 +2,15 @@ import { AbstractPiece, PieceColor } from "@components/BoardGame/Piece";
 import { BoardPosition, Position } from "@components/BoardGame/Position";
 import { Board } from "@components/BoardGame/Board";
 import { AbstractMove } from "@components/BoardGame/Move";
-import { ChessPieceType } from "@components/Chess/Rook";
+
+export enum ChessPieceType {
+  King = "King",
+  Queen = "Queen",
+  Rook = "Rook",
+  Bishop = "Bishop",
+  Knight = "Knight",
+  Pawn = "Pawn"
+}
 
 class Pawn extends AbstractPiece {
   constructor(color: PieceColor, position: Position) {

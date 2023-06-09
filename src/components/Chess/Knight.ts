@@ -1,48 +1,40 @@
 import { AbstractPiece, PieceColor } from "@components/BoardGame/Piece";
-import { BoardPosition, Position } from "@components/BoardGame/Position";
+import { Position, BoardPosition } from "@components/BoardGame/Position";
 import { Board } from "@components/BoardGame/Board";
 import { AbstractMove } from "@components/BoardGame/Move";
-import { ChessPieceType } from "@components/Chess/Rook";
+
+import { ChessPieceType } from "@components/Chess/Pawn";
 
 class Knight extends AbstractPiece {
   constructor(color: PieceColor, position: Position) {
     super(ChessPieceType.Knight, color, position);
   }
 
-  // Todo - implement generatePossibleMoves for Knight
   generatePossibleMoves(board: Board): void {
     this.possibleMoves.length = 0;
 
     const { x, y } = this.position.currentPosition;
 
-    // Determine the direction of movement based on the color of the pawn
-    const direction = this.color === PieceColor.White ? -1 : 1;
+    // Define all potential knight moves (in a 2x1 "L" shape)
+    const knightMoves = [
+      { dx: 2, dy: -1 },
+      { dx: 2, dy: 1 },
+      { dx: -2, dy: -1 },
+      { dx: -2, dy: 1 },
+      { dx: 1, dy: -2 },
+      { dx: 1, dy: 2 },
+      { dx: -1, dy: -2 },
+      { dx: -1, dy: 2 }
+    ];
 
-    // Check the square directly in front of the pawn
-    const targetTile = board.getTileAt(new BoardPosition(x, y + direction));
-    if (targetTile && !targetTile.piece) {
-      // Pawn can move one square forward if the square is empty
-      this.possibleMoves.push(new AbstractMove(this.position, new BoardPosition(x, y + direction)));
+    for (const { dx, dy } of knightMoves) {
+      const targetPosition = new BoardPosition(x + dx, y + dy);
+      const targetPiece = board.getPieceAt(targetPosition);
 
-      // Check if the pawn is in its starting position and if the two squares in front are empty
-      if ((this.color === PieceColor.White && y === 6) || (this.color === PieceColor.Black && y === 1)) {
-        const twoSquaresAhead = board.getTileAt(new BoardPosition(x, y + 2 * direction));
-        if (twoSquaresAhead && !twoSquaresAhead.piece) {
-          // Pawn can move two squares forward if both squares are empty
-          this.possibleMoves.push(new AbstractMove(this.position, new BoardPosition(x, y + 2 * direction)));
-        }
+      // Knights can jump over pieces, so they only care about the target square
+      if (!targetPiece || targetPiece.color !== this.color) {
+        this.possibleMoves.push(new AbstractMove(this.position, targetPosition));
       }
-    }
-
-    // Check the two diagonal squares for potential captures
-    const leftDiagonal = board.getTileAt(new BoardPosition(x - 1, y + direction));
-    if (leftDiagonal && leftDiagonal.piece && leftDiagonal.piece.color !== this.color) {
-      this.possibleMoves.push(new AbstractMove(this.position, new BoardPosition(x - 1, y + direction)));
-    }
-
-    const rightDiagonal = board.getTileAt(new BoardPosition(x + 1, y + direction));
-    if (rightDiagonal && rightDiagonal.piece && rightDiagonal.piece.color !== this.color) {
-      this.possibleMoves.push(new AbstractMove(this.position, new BoardPosition(x + 1, y + direction)));
     }
   }
 }
