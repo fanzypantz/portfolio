@@ -47,10 +47,20 @@ export class AbstractGame implements Game {
   }
 
   public movePiece(from: Position, to: Position): void {
+    if (!this.board.selectedPiece?.possibleMoves.some((move) => move.to.equals(to))) {
+      return;
+    }
+
     // Add chess move to list at current index
+    console.log("current Player : ", this.currentPlayer.color);
     this.gameMoves.splice(this.gameMovesIndex, this.gameMoves.length - this.gameMovesIndex, new AbstractMove(from, to));
     this.gameMovesIndex++;
-    this.board.movePiece(from, to);
+    const moveResult = this.board.movePiece(from, to);
+
+    if (moveResult) {
+      // Add score to current player
+      // this.gameScore.addScore(this.currentPlayer, moveResult.score);
+    }
   }
 
   public undoMove(): void {
