@@ -13,7 +13,7 @@ import { ChessContext } from "@components/Chess/components/chessProvider";
 
 const ChessPiece = observer(({ piece, onPieceClick }: { piece: Piece; onPieceClick?: (piece: Piece) => void }) => {
   const gltf = useLoader(GLTFLoader, `/models/${piece.type}.glb`);
-  const { board } = useContext(ChessContext);
+  const { game, board } = useContext(ChessContext);
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -34,15 +34,26 @@ const ChessPiece = observer(({ piece, onPieceClick }: { piece: Piece; onPieceCli
   };
 
   const handlePieceClick = () => {
-    if (board.selectedPiece?.position.equals(piece.position)) {
-      board.unselectPiece();
-    } else {
-      board.selectPiece(piece);
+    const isGameActive = game && board;
+    const isPieceSelected = board.selectedPiece !== undefined;
+    const isSameColor = board.selectedPiece?.color === piece.color;
+    const isSamePiece = board.selectedPiece?.position.equals(piece.position);
+
+    if (isGameActive && isPieceSelected && !isSamePiece && !isSameColor) {
+      console.log(`Moved a piece from ${board.selectedPiece!.position.toString()} to ${piece.position.toString()}`);
+
+      return game.movePiece(board.selectedPiece!.position, piece.position);
     }
+
+    if (game?.currentPlayer.color !== piece.color || piece.captured) {
+      return;
+    }
+
+    board.selectPiece(piece);
   };
 
   const getMaterial = () => {
-    if (board.selectedPiece?.position.equals(piece.position)) {
+    if (!piece.captured && board.selectedPiece?.position.equals(piece.position)) {
       return selected;
     } else if (isHovered) {
       return hover;
