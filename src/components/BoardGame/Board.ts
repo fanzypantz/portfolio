@@ -19,7 +19,7 @@ export interface Board {
   isValidPosition(position: Position): boolean;
   selectPiece(piece: Piece): void;
   unselectPiece(): void;
-  movePiece(from: Position, to: Position): void;
+  movePiece(from: Position, to: Position): boolean;
   debugPrint(): void;
 }
 
@@ -28,6 +28,7 @@ export class AbstractBoard implements Board {
   private readonly boardHeight: number;
   public readonly boardTiles: Tile[][] = [];
   public boardPieces: Piece[] = [];
+  public capturedPieces: Piece[] = [];
   public selectedPiece: Piece | undefined = undefined;
 
   constructor(width: number, height: number) {
@@ -41,6 +42,7 @@ export class AbstractBoard implements Board {
     makeObservable(this, {
       boardPieces: observable,
       boardTiles: observable,
+      capturedPieces: observable,
       selectedPiece: observable,
       selectPiece: action,
       unselectPiece: action
@@ -100,13 +102,13 @@ export class AbstractBoard implements Board {
     this.selectedPiece = undefined;
   }
 
-  public movePiece(from: Position, to: Position): void {
+  public movePiece(from: Position, to: Position): boolean {
     const fromTile = this.getTileAt(from);
     const toTile = this.getTileAt(to);
     const fromPiece = this.getPieceAt(from);
     const toPiece = this.getPieceAt(to);
     if (!fromTile || !toTile || !fromPiece) {
-      return;
+      return false;
     }
 
     const isSameColor = fromPiece?.color === toPiece?.color;
@@ -116,13 +118,16 @@ export class AbstractBoard implements Board {
     if (!isSameColor && isValidMove && isInBounds) {
       if (toPiece) {
         // capture piece
-        // const capturedPiece = toTile.piece;
-        // capturedPiece?.setCaptured(true);
+        toPiece.captured = true;
+        this.capturedPieces.push(toPiece);
         this.removePiece(toPiece);
       }
 
       fromPiece.setPosition(toTile.position);
+      this.unselectPiece();
+      return true;
     }
+    return false;
   }
 
   public debugPrint(): void {
