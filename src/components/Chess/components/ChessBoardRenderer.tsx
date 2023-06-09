@@ -18,6 +18,7 @@ import ChessBoardBaseMesh from "@components/Chess/components/ChessBoardBaseMesh"
 import ChessPiece from "@components/Chess/components/ChessPiece";
 import { ChessContext } from "@components/Chess/components/chessProvider";
 import ChessPieces from "@components/Chess/components/ChessPieces";
+import CapturedPieces from "@components/Chess/components/CapturedPieces";
 
 const ChessBoardRenderer = () => {
   const { game } = useContext(ChessContext);
@@ -34,6 +35,7 @@ const ChessBoardRenderer = () => {
       <ChessBoardBaseMesh />
       <ChessTilesMesh />
       <ChessPieces />
+      <CapturedPieces />
     </Renderer>
   );
 };
