@@ -33,7 +33,6 @@ const ChessTileMesh = observer(({ tile }: { tile: Tile }) => {
   };
 
   const material = computed(() => {
-    console.log("reee : ");
     if (hovered) {
       return hover;
     }
@@ -41,7 +40,6 @@ const ChessTileMesh = observer(({ tile }: { tile: Tile }) => {
       const isSelected = board.selectedPiece.position.equals(tile.position);
       const isPossibleMove = board.selectedPiece.possibleMoves.some((move) => move.to.equals(tile.position));
       if (isSelected || isPossibleMove) {
-        console.log("should be blue : ");
         return possibleHover;
       }
     }
