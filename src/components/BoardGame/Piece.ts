@@ -11,9 +11,11 @@ export enum PieceColor {
 export interface Piece {
   get type(): string;
   get color(): PieceColor;
+  captured: boolean;
   position: Position;
   possibleMoves: Move[];
   setPosition(position: Position): void;
+  setCaptured(): void;
   generatePossibleMoves(board: Board): void;
   toString(): string;
 }
@@ -21,6 +23,7 @@ export interface Piece {
 export class AbstractPiece implements Piece {
   private readonly _type: string;
   private readonly _color: PieceColor;
+  captured: boolean = false;
   position: Position;
   possibleMoves: Move[] = [];
 
@@ -30,6 +33,7 @@ export class AbstractPiece implements Piece {
     this.position = position;
 
     makeObservable(this, {
+      captured: observable,
       position: observable,
       setPosition: action,
       possibleMoves: observable
@@ -46,6 +50,10 @@ export class AbstractPiece implements Piece {
 
   setPosition(position: Position) {
     this.position = position;
+  }
+
+  setCaptured() {
+    this.captured = true;
   }
 
   generatePossibleMoves(board: Board): void {
