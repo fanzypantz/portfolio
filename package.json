@@ -9,24 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-three/drei": "^9.65.3",
-    "@react-three/fiber": "^8.12.1",
-    "@types/node": "18.15.11",
-    "@types/react": "18.0.35",
-    "@types/react-dom": "18.0.11",
-    "@types/three": "^0.150.1",
-    "eslint": "^8.38.0",
-    "eslint-config-next": "13.3.0",
-    "mobx": "^6.9.0",
-    "mobx-react-lite": "^3.4.3",
-    "next": "^13.4.4",
+    "@react-three/drei": "^9.84.2",
+    "@react-three/fiber": "^8.14.2",
+    "@types/node": "20.6.3",
+    "@types/react": "18.2.22",
+    "@types/react-dom": "18.2.7",
+    "@types/three": "^0.150.2",
+    "eslint": "^8.49.0",
+    "eslint-config-next": "13.5.2",
+    "mobx": "^6.10.2",
+    "mobx-react-lite": "^4.0.4",
+    "next": "^13.5.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "three": "^0.151.3",
-    "typescript": "5.0.4"
+    "three": "^0.156.1",
+    "typescript": "5.2.2"
   },
   "devDependencies": {
-    "prettier": "^2.8.7",
-    "sass": "^1.62.0"
+    "prettier": "^2.8.8",
+    "sass": "^1.68.0"
   }
 }
