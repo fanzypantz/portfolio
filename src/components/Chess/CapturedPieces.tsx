@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { ChessContext } from "@components/Chess/components/chessProvider";
-import { PieceColor } from "@components/BoardGame/Piece";
-import ChessPiece from "@components/Chess/components/ChessPiece";
-import { BoardPosition } from "@components/BoardGame/Position";
+import { ChessContext } from "@components/Chess/chessProvider";
+import { PieceColor } from "@lib/BoardGame/Piece";
+import ChessPiece from "@components/Chess/ChessPiece";
+import { BoardPosition } from "@lib/BoardGame/Position";
 import { observer } from "mobx-react-lite";
 
 const CapturedPieces = observer(() => {

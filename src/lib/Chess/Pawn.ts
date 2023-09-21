@@ -1,7 +1,7 @@
-import { AbstractPiece, PieceColor } from "@components/BoardGame/Piece";
-import { BoardPosition, Position } from "@components/BoardGame/Position";
-import { Board } from "@components/BoardGame/Board";
-import { AbstractMove } from "@components/BoardGame/Move";
+import { AbstractPiece, PieceColor } from "@lib/BoardGame/Piece";
+import { BoardPosition, Position } from "@lib/BoardGame/Position";
+import { Board } from "@lib/BoardGame/Board";
+import { AbstractMove } from "@lib/BoardGame/Move";
 
 export enum ChessPieceType {
   King = "King",

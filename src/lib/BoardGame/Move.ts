@@ -1,5 +1,5 @@
-import { Position } from "@components/BoardGame/Position";
-import { Tile } from "@components/BoardGame/Tile";
+import { Position } from "@lib/BoardGame/Position";
+import { Tile } from "@lib/BoardGame/Tile";
 
 export interface Move {
   get from(): Position;

@@ -1,8 +1,8 @@
 "use client";
 
-import ChessTileMesh from "@components/Chess/components/ChessTileMesh";
+import ChessTileMesh from "@components/Chess/ChessTileMesh";
 import { useContext } from "react";
-import { ChessContext } from "@components/Chess/components/chessProvider";
+import { ChessContext } from "@components/Chess/chessProvider";
 
 const ChessTilesMesh = () => {
   const { board } = useContext(ChessContext);

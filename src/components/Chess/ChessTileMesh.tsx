@@ -4,11 +4,11 @@ import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import StandardMesh from "@components/3D/StandardMesh";
-import { Tile, TileColor } from "@components/BoardGame/Tile";
+import { Tile, TileColor } from "@lib/BoardGame/Tile";
 import { Vector3 } from "three";
 import { useContext, useEffect, useState } from "react";
-import { black, hover, white, possibleHover } from "@components/BoardGame/Materials";
-import { ChessContext } from "@components/Chess/components/chessProvider";
+import { black, hover, white, possibleHover } from "@lib/BoardGame/Materials";
+import { ChessContext } from "@components/Chess/chessProvider";
 import { observer } from "mobx-react-lite";
 import { computed } from "mobx";
 

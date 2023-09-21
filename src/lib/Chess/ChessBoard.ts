@@ -1,13 +1,13 @@
-import { AbstractBoard } from "@components/BoardGame/Board";
-import { PieceColor } from "@components/BoardGame/Piece";
-import { BoardPosition } from "@components/BoardGame/Position";
+import { AbstractBoard } from "@lib/BoardGame/Board";
+import { PieceColor } from "@lib/BoardGame/Piece";
+import { BoardPosition } from "@lib/BoardGame/Position";
 
-import Pawn from "@components/Chess/Pawn";
-import Rook from "@components/Chess/Rook";
-import Bishop from "@components/Chess/Bishop";
-import Knight from "@components/Chess/Knight";
-import Queen from "@components/Chess/Queen";
-import King from "@components/Chess/King";
+import Pawn from "@lib/Chess/Pawn";
+import Rook from "@lib/Chess/Rook";
+import Bishop from "@lib/Chess/Bishop";
+import Knight from "@lib/Chess/Knight";
+import Queen from "@lib/Chess/Queen";
+import King from "@lib/Chess/King";
 
 class ChessBoard extends AbstractBoard {
   constructor() {

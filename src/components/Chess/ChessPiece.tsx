@@ -4,12 +4,12 @@ import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import StandardMesh from "@components/3D/StandardMesh";
-import { Piece, PieceColor } from "@components/BoardGame/Piece";
+import { Piece, PieceColor } from "@lib/BoardGame/Piece";
 import { Vector3 } from "three";
-import { black, hover, selected, white } from "@components/BoardGame/Materials";
+import { black, hover, selected, white } from "@lib/BoardGame/Materials";
 import { useContext, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { ChessContext } from "@components/Chess/components/chessProvider";
+import { ChessContext } from "@components/Chess/chessProvider";
 
 const ChessPiece = observer(({ piece, onPieceClick }: { piece: Piece; onPieceClick?: (piece: Piece) => void }) => {
   const gltf = useLoader(GLTFLoader, `/models/${piece.type}.glb`);

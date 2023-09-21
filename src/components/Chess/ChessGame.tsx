@@ -1,7 +1,7 @@
 "use client";
 
-import ChessBoardRenderer from "@components/Chess/components/ChessBoardRenderer";
-import { ChessProvider } from "@components/Chess/components/chessProvider";
+import ChessBoardRenderer from "@components/Chess/ChessBoardRenderer";
+import { ChessProvider } from "@components/Chess/chessProvider";
 
 const ChessGame = () => {
   return (

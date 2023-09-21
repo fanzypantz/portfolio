@@ -1,6 +1,6 @@
-import { Tile, AbstractTile } from "@components/BoardGame/Tile";
-import { Position, BoardPosition } from "@components/BoardGame/Position";
-import { Piece } from "@components/BoardGame/Piece";
+import { Tile, AbstractTile } from "@lib/BoardGame/Tile";
+import { Position, BoardPosition } from "@lib/BoardGame/Position";
+import { Piece } from "@lib/BoardGame/Piece";
 import { action, makeObservable, observable } from "mobx";
 
 export interface Board {

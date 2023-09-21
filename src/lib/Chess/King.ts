@@ -1,9 +1,9 @@
-import { AbstractPiece, PieceColor } from "@components/BoardGame/Piece";
-import { Position, BoardPosition } from "@components/BoardGame/Position";
-import { Board } from "@components/BoardGame/Board";
-import { AbstractMove } from "@components/BoardGame/Move";
+import { AbstractPiece, PieceColor } from "@lib/BoardGame/Piece";
+import { Position, BoardPosition } from "@lib/BoardGame/Position";
+import { Board } from "@lib/BoardGame/Board";
+import { AbstractMove } from "@lib/BoardGame/Move";
 
-import { ChessPieceType } from "@components/Chess/Pawn";
+import { ChessPieceType } from "@lib/Chess/Pawn";
 
 class King extends AbstractPiece {
   constructor(color: PieceColor, position: Position) {

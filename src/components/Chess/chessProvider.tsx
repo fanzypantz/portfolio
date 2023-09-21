@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from "react";
-import ChessGame from "@components/Chess/ChessGame";
-import ChessBoard from "@components/Chess/ChessBoard";
-import { AbstractPlayer } from "@components/BoardGame/Player";
-import { Piece, PieceColor } from "@components/BoardGame/Piece";
-import { AbstractGameScore } from "@components/BoardGame/GameScore";
+import ChessGame from "@lib/Chess/ChessGame";
+import ChessBoard from "@lib/Chess/ChessBoard";
+import { AbstractPlayer } from "@lib/BoardGame/Player";
+import { Piece, PieceColor } from "@lib/BoardGame/Piece";
+import { AbstractGameScore } from "@lib/BoardGame/GameScore";
 
 export interface ChessContextInterface {
   game: ChessGame | null;

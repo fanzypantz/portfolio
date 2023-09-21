@@ -6,19 +6,19 @@ import Renderer from "@components/3D/Renderer";
 import Lighting from "@components/3D/Lighting";
 import Controls from "@components/3D/Controls";
 
-import ChessTilesMesh from "@components/Chess/components/ChessTilesMesh";
+import ChessTilesMesh from "@components/Chess/ChessTilesMesh";
 
 // Game classes
-import { Piece, PieceColor } from "@components/BoardGame/Piece";
+import { Piece, PieceColor } from "@lib/BoardGame/Piece";
 
 // Board
-import ChessBoardBaseMesh from "@components/Chess/components/ChessBoardBaseMesh";
+import ChessBoardBaseMesh from "@components/Chess/ChessBoardBaseMesh";
 
 // Pieces
-import ChessPiece from "@components/Chess/components/ChessPiece";
-import { ChessContext } from "@components/Chess/components/chessProvider";
-import ChessPieces from "@components/Chess/components/ChessPieces";
-import CapturedPieces from "@components/Chess/components/CapturedPieces";
+import ChessPiece from "@components/Chess/ChessPiece";
+import { ChessContext } from "@components/Chess/chessProvider";
+import ChessPieces from "@components/Chess/ChessPieces";
+import CapturedPieces from "@components/Chess/CapturedPieces";
 
 const ChessBoardRenderer = () => {
   const { game } = useContext(ChessContext);

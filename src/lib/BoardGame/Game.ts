@@ -1,8 +1,8 @@
-import { Position } from "@components/BoardGame/Position";
-import { Board } from "@components/BoardGame/Board";
-import { Player } from "@components/BoardGame/Player";
-import { Move, AbstractMove } from "@components/BoardGame/Move";
-import { GameScore } from "@components/BoardGame/GameScore";
+import { Position } from "@lib/BoardGame/Position";
+import { Board } from "@lib/BoardGame/Board";
+import { Player } from "@lib/BoardGame/Player";
+import { Move, AbstractMove } from "@lib/BoardGame/Move";
+import { GameScore } from "@lib/BoardGame/GameScore";
 
 export interface Game {
   get board(): Board;

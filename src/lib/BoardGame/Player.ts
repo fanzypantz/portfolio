@@ -1,4 +1,4 @@
-import { PieceColor } from "@components/BoardGame/Piece";
+import { PieceColor } from "@lib/BoardGame/Piece";
 
 export interface Player {
   get name(): string;

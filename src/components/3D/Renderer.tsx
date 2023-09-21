@@ -1,9 +1,7 @@
 "use client";
 
 import styles from "@styles/Renderer.module.scss";
-import { Canvas, useThree } from "@react-three/fiber";
-import { useRef, useState } from "react";
-import { Mesh } from "three";
+import { Canvas } from "@react-three/fiber";
 
 const Renderer = ({ children }: { children?: JSX.Element | JSX.Element[] }) => {
   return (

@@ -1,6 +1,6 @@
-import { Move } from "@components/BoardGame/Move";
-import { Position } from "@components/BoardGame/Position";
-import { Board } from "@components/BoardGame/Board";
+import { Move } from "@lib/BoardGame/Move";
+import { Position } from "@lib/BoardGame/Position";
+import { Board } from "@lib/BoardGame/Board";
 import { action, makeObservable, observable } from "mobx";
 
 export enum PieceColor {

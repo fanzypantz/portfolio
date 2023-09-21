@@ -1,6 +1,6 @@
-import ChessPiece from "@components/Chess/components/ChessPiece";
+import ChessPiece from "@components/Chess/ChessPiece";
 import { useContext } from "react";
-import { ChessContext } from "@components/Chess/components/chessProvider";
+import { ChessContext } from "@components/Chess/chessProvider";
 import { observer } from "mobx-react-lite";
 
 const ChessPieces = observer(() => {

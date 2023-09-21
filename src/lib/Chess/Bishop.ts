@@ -1,12 +1,13 @@
-import { AbstractPiece, PieceColor } from "@components/BoardGame/Piece";
-import { BoardPosition, Position } from "@components/BoardGame/Position";
-import { Board } from "@components/BoardGame/Board";
-import { AbstractMove } from "@components/BoardGame/Move";
-import { ChessPieceType } from "@components/Chess/Pawn";
+import { AbstractPiece, PieceColor } from "@lib/BoardGame/Piece";
+import { Position, BoardPosition } from "@lib/BoardGame/Position";
+import { Board } from "@lib/BoardGame/Board";
+import { AbstractMove } from "@lib/BoardGame/Move";
 
-class Rook extends AbstractPiece {
+import { ChessPieceType } from "@lib/Chess/Pawn";
+
+class Bishop extends AbstractPiece {
   constructor(color: PieceColor, position: Position) {
-    super(ChessPieceType.Rook, color, position);
+    super(ChessPieceType.Bishop, color, position);
   }
 
   generatePossibleMoves(board: Board): void {
@@ -14,12 +15,12 @@ class Rook extends AbstractPiece {
 
     const { x, y } = this.position.currentPosition;
 
-    // Rooks can move in four straight-line directions
+    // Check each of the four diagonal directions a Bishop can move
     const directions = [
-      { dx: 1, dy: 0 }, // right
-      { dx: -1, dy: 0 }, // left
-      { dx: 0, dy: 1 }, // up
-      { dx: 0, dy: -1 } // down
+      { dx: 1, dy: 1 }, // up-right
+      { dx: -1, dy: -1 }, // down-left
+      { dx: 1, dy: -1 }, // down-right
+      { dx: -1, dy: 1 } // up-left
     ];
 
     for (const { dx, dy } of directions) {
@@ -28,14 +29,14 @@ class Rook extends AbstractPiece {
         const targetPiece = board.getPieceAt(targetPosition);
 
         if (!targetPiece) {
-          // Rook can move to an empty tile
+          // Bishop can move to an empty tile
           this.possibleMoves.push(new AbstractMove(this.position, targetPosition));
         } else {
           if (targetPiece.color !== this.color) {
-            // Rook can capture an enemy piece
+            // Bishop can capture an enemy piece
             this.possibleMoves.push(new AbstractMove(this.position, targetPosition));
           }
-          // Rook can't jump over a piece, so break the loop
+          // Bishop can't jump over a piece, so break the loop
           break;
         }
       }
@@ -43,4 +44,4 @@ class Rook extends AbstractPiece {
   }
 }
 
-export default Rook;
+export default Bishop;

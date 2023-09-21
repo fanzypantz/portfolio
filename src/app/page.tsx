@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "./page.module.css";
-import ChessGame from "@components/Chess/components/ChessGame";
+import ChessGame from "@components/Chess/ChessGame";
 
 const inter = Inter({ subsets: ["latin"] });
 
