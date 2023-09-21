@@ -6,11 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "supabase:generate": "supabase gen types typescript --project-id vmzomisuveaacfssgvbp > ./supabase/database.types.ts"
   },
   "dependencies": {
     "@react-three/drei": "^9.84.2",
     "@react-three/fiber": "^8.14.2",
+    "@supabase/auth-helpers-nextjs": "^0.8.1",
+    "@supabase/supabase-js": "^2.36.0",
     "@types/node": "20.6.3",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
