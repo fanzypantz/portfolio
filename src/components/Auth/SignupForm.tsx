@@ -4,31 +4,34 @@ import { FormEvent, useState } from "react";
 import { signup } from "@components/Auth/actions/signup";
 
 const SignupForm = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const test = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const result = await signup(email, password);
+    if (username.length === 0 || email.length === 0 || password.length === 0) {
+      return;
+    }
+
+    const result = await signup(username, email, password);
     console.log("result : ", result);
   };
 
   return (
     <form className="form" onSubmit={(e) => test(e)}>
       <div className="formGroup">
+        <label htmlFor="username">Username</label>
+        <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+      </div>
+      <div className="formGroup">
         <label htmlFor="email">Email</label>
-        <input name="email" placeholder={"enter your email"} value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
       <div className="formGroup">
         <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          placeholder={"********"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
       <button className="btn">Sign Up</button>
     </form>
