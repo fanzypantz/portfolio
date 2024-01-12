@@ -3,29 +3,41 @@
 import styles from "./Nav.module.scss";
 import Link from "next/link";
 import { User } from "@supabase/gotrue-js";
+import { MouseEvent } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 const Nav = ({ user }: { user?: User }) => {
+  const supabase = createClientComponentClient();
+  const router = useRouter();
+
+  const handleSignOut = async (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    await supabase.auth.signOut();
+    router.refresh();
+  };
+
   return (
     <nav className={styles.nav}>
-      <ul>
-        <li>
+      <ul className={styles.navItems}>
+        <li className={styles.navItem}>
           <Link href="/">Home</Link>
         </li>
         {user ? (
           <>
-            <li>
-              <Link href="/auth/logout">Logout</Link>
+            <li className={styles.navItem}>
+              <a onClick={(e) => handleSignOut(e)}>Logout</a>
             </li>
-            <li>
+            <li className={styles.navItem}>
               <Link href="/auth/profile">Profile {user.email}</Link>
             </li>
           </>
         ) : (
           <>
-            <li>
+            <li className={styles.navItem}>
               <Link href="/auth/login">Login</Link>
             </li>
-            <li>
+            <li className={styles.navItem}>
               <Link href="/auth/signup">Signup</Link>
             </li>
           </>

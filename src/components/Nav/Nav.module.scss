@@ -1,11 +1,26 @@
 
 .nav {
-  position: absolute;
+    position: absolute;
     top: 0;
     left: 0;
-display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  z-index: 100;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    z-index: 100;
+
+    background-color: lightgray;
+}
+
+.navItems {
+    display: flex;
+    align-items: center;
+    width: 40%;
+
+    list-style: none;
+}
+
+.navItem {
+    margin-right: 2rem;
 }
