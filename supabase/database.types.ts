@@ -9,6 +9,71 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      boards: {
+        Row: {
+          created_at: string
+          game_id: number | null
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          game_id?: number | null
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          game_id?: number | null
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "boards_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      chat: {
+        Row: {
+          created_at: string
+          id: number
+          lobby_id: number | null
+          message: string | null
+          profile_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          lobby_id?: number | null
+          message?: string | null
+          profile_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          lobby_id?: number | null
+          message?: string | null
+          profile_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_lobby_id_fkey"
+            columns: ["lobby_id"]
+            isOneToOne: false
+            referencedRelation: "lobbies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       countries: {
         Row: {
           id: number
@@ -24,21 +89,88 @@ export interface Database {
         }
         Relationships: []
       }
-      profiles: {
+      games: {
         Row: {
-          first_name: string | null
-          id: string
-          last_name: string | null
+          created_at: string
+          end_time: string | null
+          id: number
+          lobby_id: number | null
+          owner_id: string | null
+          start_time: string | null
+          winner_id: string | null
         }
         Insert: {
-          first_name?: string | null
-          id: string
-          last_name?: string | null
+          created_at?: string
+          end_time?: string | null
+          id?: number
+          lobby_id?: number | null
+          owner_id?: string | null
+          start_time?: string | null
+          winner_id?: string | null
         }
         Update: {
-          first_name?: string | null
+          created_at?: string
+          end_time?: string | null
+          id?: number
+          lobby_id?: number | null
+          owner_id?: string | null
+          start_time?: string | null
+          winner_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "games_lobby_id_fkey"
+            columns: ["lobby_id"]
+            isOneToOne: false
+            referencedRelation: "lobbies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "games_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "games_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      lobbies: {
+        Row: {
+          created_at: string
+          id: number
+          password: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          password?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          password?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          id: string
+          username: string | null
+        }
+        Insert: {
+          id: string
+          username?: string | null
+        }
+        Update: {
           id?: string
-          last_name?: string | null
+          username?: string | null
         }
         Relationships: [
           {
@@ -46,6 +178,128 @@ export interface Database {
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      score: {
+        Row: {
+          created_at: string
+          game_id: number | null
+          id: number
+          profile_id: string | null
+          score: number | null
+        }
+        Insert: {
+          created_at?: string
+          game_id?: number | null
+          id?: number
+          profile_id?: string | null
+          score?: number | null
+        }
+        Update: {
+          created_at?: string
+          game_id?: number | null
+          id?: number
+          profile_id?: string | null
+          score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "score_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "score_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      tile_moves: {
+        Row: {
+          board_id: number | null
+          created_at: string
+          end_coordinate_x: number | null
+          end_coordinate_y: number | null
+          id: number
+          profile_id: string | null
+          start_coordinate_x: number | null
+          start_coordinate_y: number | null
+        }
+        Insert: {
+          board_id?: number | null
+          created_at?: string
+          end_coordinate_x?: number | null
+          end_coordinate_y?: number | null
+          id?: number
+          profile_id?: string | null
+          start_coordinate_x?: number | null
+          start_coordinate_y?: number | null
+        }
+        Update: {
+          board_id?: number | null
+          created_at?: string
+          end_coordinate_x?: number | null
+          end_coordinate_y?: number | null
+          id?: number
+          profile_id?: string | null
+          start_coordinate_x?: number | null
+          start_coordinate_y?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tile_moves_board_id_fkey"
+            columns: ["board_id"]
+            isOneToOne: false
+            referencedRelation: "boards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tile_moves_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      tiles: {
+        Row: {
+          board_id: number | null
+          color: string | null
+          created_at: string
+          id: number
+          x_coordinate: number | null
+          y_coordinate: number | null
+        }
+        Insert: {
+          board_id?: number | null
+          color?: string | null
+          created_at?: string
+          id?: number
+          x_coordinate?: number | null
+          y_coordinate?: number | null
+        }
+        Update: {
+          board_id?: number | null
+          color?: string | null
+          created_at?: string
+          id?: number
+          x_coordinate?: number | null
+          y_coordinate?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tiles_board_id_fkey"
+            columns: ["board_id"]
+            isOneToOne: false
+            referencedRelation: "boards"
             referencedColumns: ["id"]
           }
         ]
