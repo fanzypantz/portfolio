@@ -35,13 +35,14 @@ export interface Database {
           }
         ]
       }
-      chat: {
+      chat_messages: {
         Row: {
           created_at: string
           id: number
           lobby_id: number | null
           message: string | null
           profile_id: string | null
+          uuid: string
         }
         Insert: {
           created_at?: string
@@ -49,6 +50,7 @@ export interface Database {
           lobby_id?: number | null
           message?: string | null
           profile_id?: string | null
+          uuid?: string
         }
         Update: {
           created_at?: string
@@ -56,17 +58,18 @@ export interface Database {
           lobby_id?: number | null
           message?: string | null
           profile_id?: string | null
+          uuid?: string
         }
         Relationships: [
           {
-            foreignKeyName: "chat_lobby_id_fkey"
+            foreignKeyName: "chat_messages_lobby_id_fkey"
             columns: ["lobby_id"]
             isOneToOne: false
             referencedRelation: "lobbies"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "chat_profile_id_fkey"
+            foreignKeyName: "chat_messages_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -145,16 +148,19 @@ export interface Database {
         Row: {
           created_at: string
           id: number
+          name: string | null
           password: string | null
         }
         Insert: {
           created_at?: string
           id?: number
+          name?: string | null
           password?: string | null
         }
         Update: {
           created_at?: string
           id?: number
+          name?: string | null
           password?: string | null
         }
         Relationships: []
