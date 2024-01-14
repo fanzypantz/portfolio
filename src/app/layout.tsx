@@ -3,6 +3,7 @@ import { getUser } from "@lib/Auth/session";
 
 import Nav from "@components/Nav/Nav";
 import { ReactNode } from "react";
+import { UserProvider } from "@components/Auth/UserProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -25,8 +26,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       </head>
 
       <body>
-        <Nav user={user} />
-        {children}
+        <UserProvider user={user}>
+          <Nav user={user} />
+          {children}
+        </UserProvider>
       </body>
     </html>
   );
