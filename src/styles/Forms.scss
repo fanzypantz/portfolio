@@ -7,8 +7,6 @@
     justify-content: center;
     width: 100%;
     margin: 0 auto;
-    padding: 0 1rem;
-    max-width: 500px;
     background-color: var(--color-white);
 }
 
@@ -17,4 +15,11 @@
     flex-direction: column;
     width: 100%;
     margin-bottom: 1rem;
+    box-sizing: border-box;
+
+}
+
+input, label {
+    width: 100%;
+    box-sizing: border-box;
 }
