@@ -7,8 +7,11 @@ import LobbyInfo from "@components/Lobby/LobbyInfo";
 import CreateLobbyForm from "@components/Lobby/CreateLobbyForm";
 import LobbyChat from "@components/Lobby/LobbyChat";
 import JoinLobbyForm from "@components/Lobby/JoinLobbyForm";
+import { UserContext } from "@components/Auth/UserProvider";
 
 const Lobby = () => {
+  const { user, profile } = useContext(UserContext);
+
   const { currentLobby, lobbyStatus, leaveLobby, setLobbyStatus } = useContext(LobbyContext);
 
   return (
@@ -23,7 +26,7 @@ const Lobby = () => {
       {lobbyStatus === LobbyStatus.None && !currentLobby && (
         <button onClick={() => setLobbyStatus(LobbyStatus.Join)}>Join Lobby</button>
       )}
-      {lobbyStatus === LobbyStatus.Joined && currentLobby && <LobbyInfo lobby={currentLobby} />}
+      {lobbyStatus === LobbyStatus.Joined && currentLobby && user && <LobbyInfo lobby={currentLobby} user={user} />}
       {lobbyStatus === LobbyStatus.Joined && currentLobby && <LobbyChat lobby={currentLobby} />}
 
       {lobbyStatus === LobbyStatus.Create && !currentLobby && <CreateLobbyForm />}
