@@ -1,3 +1,5 @@
+@import "@styles/variables";
+
 
 .nav {
     position: absolute;
@@ -10,7 +12,7 @@
     padding: 1rem 2rem;
     z-index: 100;
 
-    background-color: lightgray;
+    background-color: $base-light;
 }
 
 .navItems {
@@ -19,6 +21,8 @@
     width: 40%;
 
     list-style: none;
+
+    color: $base
 }
 
 .navItem {

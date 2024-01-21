@@ -1,4 +1,4 @@
-
+@import "@styles/variables";
 
 .container {
     position: absolute;
@@ -6,7 +6,7 @@
     left: 0;
     z-index: 100;
 
-    background-color: lightgray;
+    background-color: $base-light;
     display: flex;
     flex-direction: column;
 

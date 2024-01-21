@@ -1,3 +1,4 @@
+@import "variables";
 @import "normalize";
 @import "Forms";
 
@@ -11,6 +12,7 @@ body {
     font-size: 16px;
     line-height: 1.5;
     color: #333;
+    background-color: $base;
 }
 
 a {
