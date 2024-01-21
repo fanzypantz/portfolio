@@ -1,13 +1,17 @@
 "use client";
 
 import { GameContext } from "@components/BoardGame/GameProvider";
-import { useContext } from "react";
+import { ReactNode, useContext } from "react";
 import ChessGame from "@components/Chess/ChessGame";
 
 const Game = () => {
-  const { currentGame } = useContext(GameContext);
+  const { currentGameType, currentGame, currentPieces } = useContext(GameContext);
 
-  if (currentGame === "chess") {
+  if (!currentGame) {
+    return null; // TODO: Add loading screen
+  }
+
+  if (currentGameType === "chess") {
     return <ChessGame />;
   }
 
