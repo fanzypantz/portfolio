@@ -3,6 +3,8 @@ import { Board } from "@lib/BoardGame/Board";
 import { Player } from "@lib/BoardGame/Player";
 import { Move, AbstractMove } from "@lib/BoardGame/Move";
 import { GameScore } from "@lib/BoardGame/GameScore";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { movePieceAction } from "@components/BoardGame/actions/movePiece";
 
 export interface Game {
   get board(): Board;
@@ -10,6 +12,7 @@ export interface Game {
   get currentPlayer(): Player;
   get winner(): Player | undefined;
   movePiece(from: Position, to: Position): void;
+  saveMove(from: Position, to: Position): void;
   undoMove(): void;
   redoMove(): void;
   reset(): void;
@@ -20,9 +23,11 @@ export class AbstractGame implements Game {
   private readonly gamePlayers: Player[];
   private readonly gameMoves: Move[];
   private readonly gameScore: GameScore;
+  public readonly game_id: number;
   private gameMovesIndex: number;
 
-  constructor(gameBoard: Board, gamePlayers: Player[], gameScore: GameScore) {
+  constructor(game_id: number, gameBoard: Board, gamePlayers: Player[], gameScore: GameScore) {
+    this.game_id = game_id;
     this.gameBoard = gameBoard;
     this.gamePlayers = gamePlayers;
     this.gameScore = gameScore;
@@ -46,22 +51,24 @@ export class AbstractGame implements Game {
     throw new Error("Method not implemented.");
   }
 
-  public movePiece(from: Position, to: Position): void {
+  public async movePiece(from: Position, to: Position): Promise<void> {
     if (!this.board.selectedPiece?.possibleMoves.some((move) => move.to.equals(to))) {
       return;
     }
 
     // Add chess move to list at current index
-    console.log("current Player : ", this.currentPlayer.color);
     this.gameMoves.splice(this.gameMovesIndex, this.gameMoves.length - this.gameMovesIndex, new AbstractMove(from, to));
     this.gameMovesIndex++;
     const moveResult = this.board.movePiece(from, to);
 
     if (moveResult) {
+      await movePieceAction(this.game_id, from.currentPosition, to.currentPosition);
       // Add score to current player
       // this.gameScore.addScore(this.currentPlayer, moveResult.score);
     }
   }
+
+  saveMove(from: Position, to: Position) {}
 
   public undoMove(): void {
     // Undo move at current index
