@@ -9,32 +9,6 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      boards: {
-        Row: {
-          created_at: string
-          game_id: number | null
-          id: number
-        }
-        Insert: {
-          created_at?: string
-          game_id?: number | null
-          id?: number
-        }
-        Update: {
-          created_at?: string
-          game_id?: number | null
-          id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "boards_game_id_fkey"
-            columns: ["game_id"]
-            isOneToOne: false
-            referencedRelation: "games"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       chat_messages: {
         Row: {
           created_at: string
@@ -165,6 +139,81 @@ export interface Database {
         }
         Relationships: []
       }
+      piece_moves: {
+        Row: {
+          created_at: string
+          end_coordinate_x: number | null
+          end_coordinate_y: number | null
+          id: number
+          piece_id: number | null
+          profile_id: string | null
+          start_coordinate_x: number | null
+          start_coordinate_y: number | null
+        }
+        Insert: {
+          created_at?: string
+          end_coordinate_x?: number | null
+          end_coordinate_y?: number | null
+          id?: number
+          piece_id?: number | null
+          profile_id?: string | null
+          start_coordinate_x?: number | null
+          start_coordinate_y?: number | null
+        }
+        Update: {
+          created_at?: string
+          end_coordinate_x?: number | null
+          end_coordinate_y?: number | null
+          id?: number
+          piece_id?: number | null
+          profile_id?: string | null
+          start_coordinate_x?: number | null
+          start_coordinate_y?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "piece_moves_piece_id_fkey"
+            columns: ["piece_id"]
+            isOneToOne: false
+            referencedRelation: "pieces"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "piece_moves_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      pieces: {
+        Row: {
+          color: string | null
+          created_at: string
+          id: number
+          type: string | null
+          x_coordinate: number | null
+          y_coordinate: number | null
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          id?: number
+          type?: string | null
+          x_coordinate?: number | null
+          y_coordinate?: number | null
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          id?: number
+          type?: string | null
+          x_coordinate?: number | null
+          y_coordinate?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           id: string
@@ -223,89 +272,6 @@ export interface Database {
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      tile_moves: {
-        Row: {
-          board_id: number | null
-          created_at: string
-          end_coordinate_x: number | null
-          end_coordinate_y: number | null
-          id: number
-          profile_id: string | null
-          start_coordinate_x: number | null
-          start_coordinate_y: number | null
-        }
-        Insert: {
-          board_id?: number | null
-          created_at?: string
-          end_coordinate_x?: number | null
-          end_coordinate_y?: number | null
-          id?: number
-          profile_id?: string | null
-          start_coordinate_x?: number | null
-          start_coordinate_y?: number | null
-        }
-        Update: {
-          board_id?: number | null
-          created_at?: string
-          end_coordinate_x?: number | null
-          end_coordinate_y?: number | null
-          id?: number
-          profile_id?: string | null
-          start_coordinate_x?: number | null
-          start_coordinate_y?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "tile_moves_board_id_fkey"
-            columns: ["board_id"]
-            isOneToOne: false
-            referencedRelation: "boards"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tile_moves_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      tiles: {
-        Row: {
-          board_id: number | null
-          color: string | null
-          created_at: string
-          id: number
-          x_coordinate: number | null
-          y_coordinate: number | null
-        }
-        Insert: {
-          board_id?: number | null
-          color?: string | null
-          created_at?: string
-          id?: number
-          x_coordinate?: number | null
-          y_coordinate?: number | null
-        }
-        Update: {
-          board_id?: number | null
-          color?: string | null
-          created_at?: string
-          id?: number
-          x_coordinate?: number | null
-          y_coordinate?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "tiles_board_id_fkey"
-            columns: ["board_id"]
-            isOneToOne: false
-            referencedRelation: "boards"
             referencedColumns: ["id"]
           }
         ]
