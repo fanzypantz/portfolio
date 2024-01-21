@@ -2,6 +2,7 @@ import { Tile, AbstractTile } from "@lib/BoardGame/Tile";
 import { Position, BoardPosition } from "@lib/BoardGame/Position";
 import { Piece } from "@lib/BoardGame/Piece";
 import { action, makeObservable, observable } from "mobx";
+import { Tables } from "@supabase/database.types";
 
 export interface Board {
   get width(): number;
@@ -14,7 +15,8 @@ export interface Board {
   addPiece(piece: Piece): void;
   removePiece(piece: Piece): void;
 
-  initBoard(): void;
+  initBoard(): Promise<void>;
+  initBoardFromDatabase(pieces: Tables<"pieces">[]): Promise<void>;
   inBounds(position: Position): boolean;
   isValidPosition(position: Position): boolean;
   selectPiece(piece: Piece): void;
@@ -24,6 +26,7 @@ export interface Board {
 }
 
 export class AbstractBoard implements Board {
+  readonly game_id: number;
   private readonly boardWidth: number;
   private readonly boardHeight: number;
   public readonly boardTiles: Tile[][] = [];
@@ -31,9 +34,10 @@ export class AbstractBoard implements Board {
   public capturedPieces: Piece[] = [];
   public selectedPiece: Piece | undefined = undefined;
 
-  constructor(width: number, height: number) {
+  constructor(width: number, height: number, game_id: number) {
     this.boardWidth = width;
     this.boardHeight = height;
+    this.game_id = game_id;
 
     this.boardTiles = Array.from({ length: height }, (_, y) =>
       Array.from({ length: width }, (_, x) => new AbstractTile(new BoardPosition(x, y)))
@@ -81,7 +85,11 @@ export class AbstractBoard implements Board {
     this.boardPieces = this.boardPieces.filter((p) => p !== piece);
   }
 
-  public initBoard(): void {
+  public initBoard(): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
+  public async initBoardFromDatabase(pieces: Tables<"pieces">[]): Promise<void> {
     throw new Error("Method not implemented.");
   }
 
