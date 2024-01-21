@@ -16,7 +16,6 @@ const SignupForm = () => {
     }
 
     const result = await signup(username, email, password);
-    console.log("result : ", result);
   };
 
   return (
