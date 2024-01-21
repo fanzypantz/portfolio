@@ -11,7 +11,6 @@ const LoginForm = () => {
     e.preventDefault();
 
     const result = await login(email, password);
-    console.log("result : ", result);
   };
 
   return (
