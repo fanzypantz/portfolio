@@ -4,6 +4,8 @@ import { User } from "@supabase/gotrue-js";
 import { Database, Tables } from "@supabase/database.types";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { supabaseBrowserClient } from "@lib/Auth/supabase";
+import { getUserProfileAction } from "@components/Auth/actions/getUserProfile";
 
 export interface UserContextInterface {
   user?: User;
@@ -21,20 +23,20 @@ export const UserProvider = ({
   user?: User;
   profile?: Tables<"profiles">;
 }) => {
-  const supabase = createClientComponentClient<Database>();
   const [userData, setUserData] = useState<User | undefined>(user);
   const [profileData, setProfileData] = useState<Tables<"profiles"> | undefined>(profile);
 
   useEffect(() => {
-    if (userData && !profileData) {
+    if (userData && profileData === undefined) {
       getProfile();
     }
   }, [userData]);
 
   const getProfile = async () => {
-    if (!user) return;
+    if (!userData) return;
 
-    const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+    const { data, error } = await getUserProfileAction(userData.id);
+
     if (error) {
       console.log("error : ", error);
       throw error;

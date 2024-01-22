@@ -7,13 +7,13 @@ import Lobby from "@components/Lobby/Lobby";
 import { GameProvider } from "@components/BoardGame/GameProvider";
 import Game from "@components/BoardGame/Game";
 import ChessGame from "@components/Chess/ChessGame";
+import { supabaseServerClient } from "@lib/Auth/supabaseServer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default async function Home({}) {
   const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-  const result = await supabase.from("profiles").select("*");
+  const result = await supabaseServerClient().from("profiles").select("*");
 
   return (
     <main className={styles.main}>

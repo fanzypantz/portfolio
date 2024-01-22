@@ -1,14 +1,10 @@
 "use server";
 
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@supabase/database.types";
-import { cookies } from "next/headers";
 import { compareHash } from "@lib/Auth/hashing";
+import { supabaseServerActionClient } from "@lib/Auth/supabaseServerAction";
 
 export const joinLobbyAction = async (name: string, password: string) => {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
-
-  const { data, error } = await supabase.from("lobbies").select().eq("name", name).single();
+  const { data, error } = await supabaseServerActionClient().from("lobbies").select().eq("name", name).single();
 
   if (error) {
     console.error(error);

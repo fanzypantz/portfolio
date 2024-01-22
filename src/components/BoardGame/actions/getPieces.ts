@@ -1,13 +1,9 @@
 "use server";
 
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@supabase/database.types";
-import { cookies } from "next/headers";
+import { supabaseServerActionClient } from "@lib/Auth/supabaseServerAction";
 
 export const getPiecesAction = async (game_id: number) => {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
-
-  const { data, error } = await supabase.from("pieces").select().eq("game_id", game_id);
+  const { data, error } = await supabaseServerActionClient().from("pieces").select().eq("game_id", game_id);
 
   if (error) {
     console.error(error);

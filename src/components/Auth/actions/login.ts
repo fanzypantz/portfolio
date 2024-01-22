@@ -1,19 +1,14 @@
 "use server";
 
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@supabase/database.types";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { supabaseServerActionClient } from "@lib/Auth/supabaseServerAction";
 
-export const login = async (email: string, password: string) => {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
-
-  const { data, error } = await supabase.auth.signInWithPassword({
+export const loginAction = async (email: string, password: string) => {
+  const { data, error } = await supabaseServerActionClient().auth.signInWithPassword({
     email,
     password
   });
 
-  console.log("data : ", data, error);
   if (error) {
     return error;
   }

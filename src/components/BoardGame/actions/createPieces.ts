@@ -1,15 +1,12 @@
 "use server";
 
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { Database, Tables } from "@supabase/database.types";
-import { cookies } from "next/headers";
+import { supabaseServerActionClient } from "@lib/Auth/supabaseServerAction";
 
 export type PieceWithoutIdAndCreatedAt = Omit<Tables<"pieces">, "id" | "created_at">;
 
 export const createPiecesAction = async (game_id: number, pieces: PieceWithoutIdAndCreatedAt[]) => {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
-
-  const { data, error } = await supabase.from("pieces").insert(pieces).select();
+  const { data, error } = await supabaseServerActionClient().from("pieces").insert(pieces).select();
 
   if (error) {
     console.error(error);

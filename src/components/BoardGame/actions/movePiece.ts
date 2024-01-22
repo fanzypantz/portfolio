@@ -1,14 +1,10 @@
 "use server";
 
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@supabase/database.types";
-import { cookies } from "next/headers";
 import { Vector2 } from "@lib/BoardGame/Position";
+import { supabaseServerActionClient } from "@lib/Auth/supabaseServerAction";
 
 export const movePieceAction = async (game_id: number, from: Vector2, to: Vector2) => {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
-
-  const { data, error } = await supabase
+  const { data, error } = await supabaseServerActionClient()
     .from("pieces")
     .select()
     .eq("game_id", game_id)
@@ -29,7 +25,7 @@ export const movePieceAction = async (game_id: number, from: Vector2, to: Vector
     };
   }
 
-  const { data: pieceData, error: pieceError } = await supabase
+  const { data: pieceData, error: pieceError } = await supabaseServerActionClient()
     .from("pieces")
     .update({ x_coordinate: to.x, y_coordinate: to.y })
     .eq("id", data.id)
@@ -50,7 +46,7 @@ export const movePieceAction = async (game_id: number, from: Vector2, to: Vector
   }
 
   // TODO save user too
-  const { data: moveData, error: moveError } = await supabase.from("piece_moves").insert({
+  const { data: moveData, error: moveError } = await supabaseServerActionClient().from("piece_moves").insert({
     start_coordinate_x: from.x,
     start_coordinate_y: from.y,
     end_coordinate_x: to.x,

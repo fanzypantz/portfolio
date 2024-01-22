@@ -1,13 +1,10 @@
 "use client";
 
-import { createClientComponentClient, createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@supabase/database.types";
-import { cookies } from "next/headers";
+import { supabaseBrowserClient } from "@lib/Auth/supabase";
 
 const GoogleButton = () => {
   const signupWithGoogle = async () => {
-    const supabase = createClientComponentClient();
-    const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+    const { data, error } = await supabaseBrowserClient.auth.signInWithOAuth({ provider: "google" });
 
     console.log("data : ", data);
 

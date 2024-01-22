@@ -1,16 +1,12 @@
 "use server";
 
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@supabase/database.types";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { supabaseServerActionClient } from "@lib/Auth/supabaseServerAction";
 
 const url = "http://localhost:3000";
 
-export const signup = async (username: string, email: string, password: string) => {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
-
-  const signupResult = await supabase.auth.signUp({
+export const signupAction = async (username: string, email: string, password: string) => {
+  const signupResult = await supabaseServerActionClient().auth.signUp({
     email,
     password,
     options: {
@@ -25,7 +21,7 @@ export const signup = async (username: string, email: string, password: string) 
     return { error: { message: "Error signing up" } };
   }
 
-  const loginResult = await supabase.auth.signInWithPassword({
+  const loginResult = await supabaseServerActionClient().auth.signInWithPassword({
     email,
     password
   });
@@ -34,7 +30,7 @@ export const signup = async (username: string, email: string, password: string) 
     return { error: { message: loginResult.error.message } };
   }
 
-  const result = await supabase.from("profiles").insert({ id: loginResult.data.user.id, username });
+  const result = await supabaseServerActionClient().from("profiles").insert({ id: loginResult.data.user.id, username });
 
   redirect("/");
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { signup } from "@components/Auth/actions/signup";
+import { signupAction } from "@components/Auth/actions/signup";
 
 const SignupForm = () => {
   const [username, setUsername] = useState("");
@@ -15,7 +15,7 @@ const SignupForm = () => {
       return;
     }
 
-    const result = await signup(username, email, password);
+    const result = await signupAction(username, email, password);
   };
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { login } from "@components/Auth/actions/login";
+import { loginAction } from "@components/Auth/actions/login";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +10,7 @@ const LoginForm = () => {
   const test = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const result = await login(email, password);
+    const result = await loginAction(email, password);
   };
 
   return (

@@ -7,6 +7,8 @@ import { FormEvent, useContext, useEffect, useState } from "react";
 import { RealtimePostgresInsertPayload } from "@supabase/realtime-js";
 import { UserContext } from "@components/Auth/UserProvider";
 import ChatMessage from "@components/Lobby/ChatMessage";
+import { supabaseBrowserClient } from "@lib/Auth/supabase";
+import { getUserProfileAction } from "@components/Auth/actions/getUserProfile";
 
 export interface Message {
   id: number;
@@ -18,7 +20,6 @@ export interface Message {
 }
 const LobbyChat = ({ lobby }: { lobby: Tables<"lobbies"> }) => {
   const { profile } = useContext(UserContext);
-  const supabase = createClientComponentClient<Database>();
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>("");
@@ -26,7 +27,7 @@ const LobbyChat = ({ lobby }: { lobby: Tables<"lobbies"> }) => {
   useEffect(() => {
     initChat(lobby.id);
 
-    const supabaseChannel = supabase
+    const supabaseChannel = supabaseBrowserClient
       .channel(`chat_messages:${lobby.id}`)
       .on(
         "postgres_changes",
@@ -46,7 +47,7 @@ const LobbyChat = ({ lobby }: { lobby: Tables<"lobbies"> }) => {
   }, []);
 
   const initChat = async (lobby_id: number) => {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseBrowserClient
       .from("chat_messages")
       .select(`*, profiles(username)`)
       .eq("lobby_id", lobby_id)
@@ -75,11 +76,7 @@ const LobbyChat = ({ lobby }: { lobby: Tables<"lobbies"> }) => {
 
   const handleNewMessage = async (payload: RealtimePostgresInsertPayload<{ [p: string]: any }>) => {
     const message = payload.new as Tables<"chat_messages">;
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", message.profile_id ?? "")
-      .single();
+    const { data, error } = await getUserProfileAction(message.profile_id ?? "");
 
     setMessages((prev) => [
       // Remove message from UI if it exists
@@ -115,7 +112,7 @@ const LobbyChat = ({ lobby }: { lobby: Tables<"lobbies"> }) => {
       }
     ]);
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseBrowserClient
       .from("chat_messages")
       .insert({
         uuid,
