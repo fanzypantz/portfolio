@@ -72,14 +72,14 @@ export const ChessProvider = ({
     setChessGame(newChessGame);
   };
 
-  const initMoveListener = async () => {
-    const { data, error } = await supabaseBrowserClient
-      .from("chat_messages")
-      .select(`*, profiles(username)`)
-      .eq("lobby_id", lobby_id)
-      .order("id", { ascending: false })
-      .limit(10);
-  };
+  // const initMoveListener = async () => {
+  //   const { data, error } = await supabaseBrowserClient
+  //     .from("chat_messages")
+  //     .select(`*, profiles(username)`)
+  //     .eq("lobby_id", lobby_id)
+  //     .order("id", { ascending: false })
+  //     .limit(10);
+  // };
 
   return (
     <ChessContext.Provider

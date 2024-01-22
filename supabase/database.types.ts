@@ -74,6 +74,7 @@ export interface Database {
           lobby_id: number | null
           owner_id: string | null
           start_time: string | null
+          status: Database["public"]["Enums"]["GameStatus"] | null
           winner_id: string | null
         }
         Insert: {
@@ -83,6 +84,7 @@ export interface Database {
           lobby_id?: number | null
           owner_id?: string | null
           start_time?: string | null
+          status?: Database["public"]["Enums"]["GameStatus"] | null
           winner_id?: string | null
         }
         Update: {
@@ -92,6 +94,7 @@ export interface Database {
           lobby_id?: number | null
           owner_id?: string | null
           start_time?: string | null
+          status?: Database["public"]["Enums"]["GameStatus"] | null
           winner_id?: string | null
         }
         Relationships: [
@@ -298,7 +301,7 @@ export interface Database {
       }
     }
     Enums: {
-      [_ in never]: never
+      GameStatus: "Open" | "Closed" | "Ongoing" | "Finished"
     }
     CompositeTypes: {
       [_ in never]: never
