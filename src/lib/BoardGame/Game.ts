@@ -11,7 +11,7 @@ export interface Game {
   get players(): Player[];
   get currentPlayer(): Player;
   get winner(): Player | undefined;
-  movePiece(from: Position, to: Position): void;
+  movePiece(from: Position, to: Position, saveMove: boolean): void;
   saveMove(from: Position, to: Position): void;
   undoMove(): void;
   redoMove(): void;
@@ -51,7 +51,7 @@ export class AbstractGame implements Game {
     throw new Error("Method not implemented.");
   }
 
-  public async movePiece(from: Position, to: Position): Promise<void> {
+  public async movePiece(from: Position, to: Position, saveMove = true): Promise<void> {
     if (!this.board.selectedPiece?.possibleMoves.some((move) => move.to.equals(to))) {
       return;
     }
@@ -61,14 +61,16 @@ export class AbstractGame implements Game {
     this.gameMovesIndex++;
     const moveResult = this.board.movePiece(from, to);
 
-    if (moveResult) {
-      await movePieceAction(this.game_id, from.currentPosition, to.currentPosition);
+    if (moveResult && saveMove) {
+      await this.saveMove(from, to);
       // Add score to current player
       // this.gameScore.addScore(this.currentPlayer, moveResult.score);
     }
   }
 
-  saveMove(from: Position, to: Position) {}
+  async saveMove(from: Position, to: Position) {
+    await movePieceAction(this.game_id, from.currentPosition, to.currentPosition);
+  }
 
   public undoMove(): void {
     // Undo move at current index
