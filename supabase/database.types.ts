@@ -191,6 +191,7 @@ export interface Database {
         Row: {
           color: string | null
           created_at: string
+          game_id: number | null
           id: number
           type: string | null
           x_coordinate: number | null
@@ -199,6 +200,7 @@ export interface Database {
         Insert: {
           color?: string | null
           created_at?: string
+          game_id?: number | null
           id?: number
           type?: string | null
           x_coordinate?: number | null
@@ -207,12 +209,21 @@ export interface Database {
         Update: {
           color?: string | null
           created_at?: string
+          game_id?: number | null
           id?: number
           type?: string | null
           x_coordinate?: number | null
           y_coordinate?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "pieces_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       profiles: {
         Row: {
