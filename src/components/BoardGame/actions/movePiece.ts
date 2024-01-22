@@ -29,11 +29,34 @@ export const movePieceAction = async (game_id: number, from: Vector2, to: Vector
     };
   }
 
-  const { data: moveData, error: moveError } = await supabase
+  const { data: pieceData, error: pieceError } = await supabase
     .from("pieces")
     .update({ x_coordinate: to.x, y_coordinate: to.y })
     .eq("id", data.id)
+    .select()
     .single();
+
+  if (pieceError) {
+    console.error(pieceError);
+    return {
+      error: pieceError.message
+    };
+  }
+
+  if (!pieceData) {
+    return {
+      error: "No data returned"
+    };
+  }
+
+  // TODO save user too
+  const { data: moveData, error: moveError } = await supabase.from("piece_moves").insert({
+    start_coordinate_x: from.x,
+    start_coordinate_y: from.y,
+    end_coordinate_x: to.x,
+    end_coordinate_y: to.y,
+    piece_id: pieceData.id
+  });
 
   if (moveError) {
     console.error(moveError);
@@ -42,11 +65,5 @@ export const movePieceAction = async (game_id: number, from: Vector2, to: Vector
     };
   }
 
-  if (!moveData) {
-    return {
-      error: "No data returned"
-    };
-  }
-
-  return { data: moveData };
+  return { data: pieceData };
 };
