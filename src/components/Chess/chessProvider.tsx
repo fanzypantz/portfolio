@@ -5,6 +5,7 @@ import { AbstractPlayer } from "@lib/BoardGame/Player";
 import { Piece, PieceColor } from "@lib/BoardGame/Piece";
 import { AbstractGameScore } from "@lib/BoardGame/GameScore";
 import { Tables } from "@supabase/database.types";
+import { supabaseBrowserClient } from "@lib/Auth/supabase";
 
 export interface ChessContextInterface {
   game: ChessGame | null;
@@ -69,6 +70,15 @@ export const ChessProvider = ({
     setPlayer2(p2);
     setGameScore(score);
     setChessGame(newChessGame);
+  };
+
+  const initMoveListener = async () => {
+    const { data, error } = await supabaseBrowserClient
+      .from("chat_messages")
+      .select(`*, profiles(username)`)
+      .eq("lobby_id", lobby_id)
+      .order("id", { ascending: false })
+      .limit(10);
   };
 
   return (
