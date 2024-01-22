@@ -1,7 +1,6 @@
 "use client";
 
 import { v4 as uuidv4 } from "uuid";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database, Tables } from "@supabase/database.types";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { RealtimePostgresInsertPayload } from "@supabase/realtime-js";
@@ -18,6 +17,9 @@ export interface Message {
   profile_id: string | null;
   lobby_id: number | null;
 }
+
+// TODO move to server actions
+
 const LobbyChat = ({ lobby }: { lobby: Tables<"lobbies"> }) => {
   const { profile } = useContext(UserContext);
 

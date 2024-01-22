@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database, Tables } from "@supabase/database.types";
 import { createLobbyAction } from "@components/Lobby/actions/createLobby";
 import { joinLobbyAction } from "@components/Lobby/actions/joinLobby";

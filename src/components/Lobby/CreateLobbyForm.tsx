@@ -1,8 +1,6 @@
 "use client";
 
 import styles from "./Lobby.module.scss";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@supabase/database.types";
 import { FormEvent, useContext, useState } from "react";
 import { LobbyContext } from "@components/Lobby/LobbyProvider";
 

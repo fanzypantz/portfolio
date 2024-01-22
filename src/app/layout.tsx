@@ -1,5 +1,5 @@
 import "@styles/globals.scss";
-import { getUser } from "@lib/Auth/session";
+import { getServerUser } from "@lib/Auth/session";
 
 import Nav from "@components/Nav/Nav";
 import { ReactNode } from "react";
@@ -11,7 +11,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const user = await getUser();
+  const user = await getServerUser();
 
   return (
     <html lang="en">

@@ -1,13 +1,9 @@
 "use server";
 
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@supabase/database.types";
-import { cookies } from "next/headers";
+import { supabaseServerActionClient } from "@lib/Auth/supabaseServerAction";
 
 export const createGameAction = async (lobby_id: number, owner_id: string) => {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
-
-  const { data, error } = await supabase
+  const { data, error } = await supabaseServerActionClient()
     .from("games")
     .insert([{ lobby_id, owner_id, start_time: new Date().toISOString() }])
     .select();

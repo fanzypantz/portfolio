@@ -1,12 +1,10 @@
 import { Inter } from "next/font/google";
 import styles from "./page.module.css";
 import { cookies } from "next/headers";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { LobbyProvider } from "@components/Lobby/LobbyProvider";
 import Lobby from "@components/Lobby/Lobby";
 import { GameProvider } from "@components/BoardGame/GameProvider";
 import Game from "@components/BoardGame/Game";
-import ChessGame from "@components/Chess/ChessGame";
 import { supabaseServerClient } from "@lib/Auth/supabaseServer";
 
 const inter = Inter({ subsets: ["latin"] });

@@ -4,7 +4,6 @@ import styles from "./Nav.module.scss";
 import Link from "next/link";
 import { User } from "@supabase/gotrue-js";
 import { MouseEvent, useContext } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { supabaseBrowserClient } from "@lib/Auth/supabase";
 import { UserContext } from "@components/Auth/UserProvider";

@@ -1,10 +1,8 @@
 "use client";
 
 import { User } from "@supabase/gotrue-js";
-import { Database, Tables } from "@supabase/database.types";
+import { Tables } from "@supabase/database.types";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { supabaseBrowserClient } from "@lib/Auth/supabase";
 import { getUserProfileAction } from "@components/Auth/actions/getUserProfile";
 
 export interface UserContextInterface {
