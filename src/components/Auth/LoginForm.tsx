@@ -2,8 +2,10 @@
 
 import { FormEvent, useState } from "react";
 import { loginAction } from "@components/Auth/actions/login";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const { push } = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -11,6 +13,13 @@ const LoginForm = () => {
     e.preventDefault();
 
     const result = await loginAction(email, password);
+
+    if (result.error) {
+      console.log(result.error);
+      return;
+    }
+
+    push("/ ");
   };
 
   return (

@@ -10,7 +10,7 @@ export const loginAction = async (email: string, password: string) => {
   });
 
   if (error) {
-    return error;
+    return { error: error.message };
   }
 
   redirect("/");
