@@ -30,7 +30,7 @@ const LobbyChat = ({ lobby }: { lobby: Tables<"lobbies"> }) => {
     initChat(lobby.id);
 
     const supabaseChannel = supabaseBrowserClient
-      .channel(`chat_messages:${lobby.id}`)
+      .channel(`lobby:${lobby.id}`)
       .on(
         "postgres_changes",
         {
