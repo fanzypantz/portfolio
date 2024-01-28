@@ -8,15 +8,25 @@ import { LobbyContext } from "@components/Lobby/LobbyProvider";
 import { User } from "@supabase/gotrue-js";
 
 const LobbyInfo = ({ lobby, user }: { lobby: Tables<"lobbies">; user: User }) => {
+  const { players } = useContext(LobbyContext);
   const { currentGameType, createGame, closeGame } = useContext(GameContext);
 
   if (!user) {
     return null;
   }
 
+  console.log("players : ", players);
+
   return (
     <div>
-      <div>{lobby.name}</div>
+      <div>Lobby name: {lobby.name}</div>
+
+      <div>
+        <div>Players:</div>
+        {players.map((player) => (
+          <div key={player.id}>{player.username}</div>
+        ))}
+      </div>
 
       {currentGameType ? (
         <button onClick={() => closeGame()}>Close Game</button>
