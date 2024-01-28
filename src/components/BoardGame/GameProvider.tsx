@@ -29,6 +29,7 @@ export const GameProvider = ({ children }: { children: JSX.Element | JSX.Element
   const [currentGameType, setCurrentGameType] = useState<GameType | null>(null);
   const [currentGame, setCurrentGame] = useState<Tables<"games"> | null>(null);
   const [currentPieces, setCurrentPieces] = useState<Tables<"pieces">[] | null>(null);
+  const [currentMoves, setCurrentMoves] = useState<Tables<"piece_moves">[] | null>(null);
 
   useEffect(() => {
     init();
@@ -57,7 +58,7 @@ export const GameProvider = ({ children }: { children: JSX.Element | JSX.Element
   useEffect(() => {
     if (!currentGame) return;
 
-    const supabaseChannel = supabaseBrowserClient
+    const supabaseGameChannel = supabaseBrowserClient
       .channel(`games:${currentLobby?.id}`)
       .on(
         "postgres_changes",
@@ -65,14 +66,29 @@ export const GameProvider = ({ children }: { children: JSX.Element | JSX.Element
           event: "UPDATE",
           schema: "public",
           table: "games",
-          filter: `id=eq.${currentGame.id}`
+          filter: `(id=eq.${currentGame.id}) and (status=eq.Open)`
         },
         (payload) => handleGameChange(payload)
       )
       .subscribe();
 
+    const supabaseGameMoveChannel = supabaseBrowserClient
+      .channel(`games:${currentLobby?.id}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "piece_moves",
+          filter: `game_id=eq.${currentGame.id}`
+        },
+        (payload) => console.log(payload)
+      )
+      .subscribe();
+
     return () => {
-      supabaseChannel.unsubscribe();
+      supabaseGameChannel.unsubscribe();
+      supabaseGameMoveChannel.unsubscribe();
     };
   }, [currentGame]);
 
@@ -98,6 +114,12 @@ export const GameProvider = ({ children }: { children: JSX.Element | JSX.Element
     if (newGame.status === "Closed") {
       clearGame();
     }
+  };
+
+  const handleGameMove = (payload: RealtimePostgresUpdatePayload<{ [p: string]: any }>) => {
+    const gameMove = payload.new as Tables<"piece_moves">;
+
+    console.log(gameMove);
   };
 
   const fetchGame = async (id: number) => {
