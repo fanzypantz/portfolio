@@ -69,7 +69,7 @@ export class AbstractGame implements Game {
   }
 
   async saveMove(from: Position, to: Position) {
-    await movePieceAction(this.game_id, from.currentPosition, to.currentPosition);
+    await movePieceAction(this.game_id, "", from.currentPosition, to.currentPosition);
   }
 
   public undoMove(): void {
