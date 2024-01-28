@@ -142,11 +142,42 @@ export interface Database {
         }
         Relationships: []
       }
+      lobby_players: {
+        Row: {
+          lobby_id: number
+          player_id: string
+        }
+        Insert: {
+          lobby_id: number
+          player_id: string
+        }
+        Update: {
+          lobby_id?: number
+          player_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lobby_players_lobby_id_fkey"
+            columns: ["lobby_id"]
+            isOneToOne: false
+            referencedRelation: "lobbies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lobby_players_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       piece_moves: {
         Row: {
           created_at: string
           end_coordinate_x: number | null
           end_coordinate_y: number | null
+          game_id: number | null
           id: number
           piece_id: number | null
           profile_id: string | null
@@ -157,6 +188,7 @@ export interface Database {
           created_at?: string
           end_coordinate_x?: number | null
           end_coordinate_y?: number | null
+          game_id?: number | null
           id?: number
           piece_id?: number | null
           profile_id?: string | null
@@ -167,6 +199,7 @@ export interface Database {
           created_at?: string
           end_coordinate_x?: number | null
           end_coordinate_y?: number | null
+          game_id?: number | null
           id?: number
           piece_id?: number | null
           profile_id?: string | null
@@ -174,6 +207,13 @@ export interface Database {
           start_coordinate_y?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "piece_moves_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "piece_moves_piece_id_fkey"
             columns: ["piece_id"]
