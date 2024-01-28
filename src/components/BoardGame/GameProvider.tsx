@@ -56,24 +56,28 @@ export const GameProvider = ({ children }: { children: JSX.Element | JSX.Element
   }, [currentLobby]);
 
   useEffect(() => {
-    if (!currentGame) return;
+    if (!currentGame) {
+      console.log("No game to subscribe to");
+      return;
+    }
+    console.log("Subscribing to game: ", currentGame.id);
 
     const supabaseGameChannel = supabaseBrowserClient
-      .channel(`games:${currentLobby?.id}`)
+      .channel(`games:${currentGame?.id}`)
       .on(
         "postgres_changes",
         {
           event: "UPDATE",
           schema: "public",
           table: "games",
-          filter: `(id=eq.${currentGame.id}) and (status=eq.Open)`
+          filter: `id=eq.${currentGame.id}`
         },
         (payload) => handleGameChange(payload)
       )
       .subscribe();
 
     const supabaseGameMoveChannel = supabaseBrowserClient
-      .channel(`games:${currentLobby?.id}`)
+      .channel(`games:${currentGame?.id}`)
       .on(
         "postgres_changes",
         {
@@ -87,6 +91,7 @@ export const GameProvider = ({ children }: { children: JSX.Element | JSX.Element
       .subscribe();
 
     return () => {
+      console.log("Unsubscribing from game: ", currentGame.id);
       supabaseGameChannel.unsubscribe();
       supabaseGameMoveChannel.unsubscribe();
     };
@@ -110,6 +115,7 @@ export const GameProvider = ({ children }: { children: JSX.Element | JSX.Element
 
   const handleGameChange = (payload: RealtimePostgresUpdatePayload<{ [p: string]: any }>) => {
     const newGame = payload.new as Tables<"games">;
+    console.log("Game change : ", newGame);
 
     if (newGame.status === "Closed") {
       clearGame();
@@ -172,10 +178,16 @@ export const GameProvider = ({ children }: { children: JSX.Element | JSX.Element
     localStorage.removeItem("gameId");
   };
 
-  const closeGame = () => {
+  const closeGame = async () => {
     if (!currentGame?.id) return;
+    console.log("Closing game: ", currentGame.id);
 
-    closeGameAction(currentGame?.id);
+    const { data, error } = await closeGameAction(currentGame?.id);
+
+    if (error) {
+      console.error(error);
+      return false;
+    }
   };
 
   return (
