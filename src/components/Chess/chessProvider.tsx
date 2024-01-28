@@ -63,7 +63,7 @@ export const ChessProvider = ({
 
     // TODO maybe add a double check if any duplicated pieces was created in the database
     // Issue happens when browser refreshes and there are no pieces in the database
-    // Probably will not happen in production due to React strict mode running useEffect twice
+    // Probably will not happen in production due to React strict mode running useEffect twice in development
 
     setChessBoard(board);
     setPlayer1(p1);
