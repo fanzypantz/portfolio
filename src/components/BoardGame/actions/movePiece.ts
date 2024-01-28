@@ -3,7 +3,7 @@
 import { Vector2 } from "@lib/BoardGame/Position";
 import { supabaseServerActionClient } from "@lib/Auth/supabaseServerAction";
 
-export const movePieceAction = async (game_id: number, from: Vector2, to: Vector2) => {
+export const movePieceAction = async (game_id: number, profile_id: string, from: Vector2, to: Vector2) => {
   const { data, error } = await supabaseServerActionClient()
     .from("pieces")
     .select()
@@ -51,7 +51,8 @@ export const movePieceAction = async (game_id: number, from: Vector2, to: Vector
     start_coordinate_y: from.y,
     end_coordinate_x: to.x,
     end_coordinate_y: to.y,
-    piece_id: pieceData.id
+    piece_id: pieceData.id,
+    game_id: game_id
   });
 
   if (moveError) {
