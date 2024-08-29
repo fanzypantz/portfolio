@@ -1,9 +1,13 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { signupAction } from "@components/Auth/actions/signup";
+import { FormEvent, useContext, useState } from "react";
+import { signUpAction } from "@components/Auth/actions/signUpActions";
+import { UserContext } from "@components/Auth/UserProvider";
+import { redirect } from "next/navigation";
 
 const SignupForm = () => {
+  const { setUser } = useContext(UserContext);
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +19,15 @@ const SignupForm = () => {
       return;
     }
 
-    const result = await signupAction(username, email, password);
+    const result = await signUpAction(username, email, password);
+    if (result.error) {
+      console.error("Error signing up", result.error);
+      return;
+    }
+
+    setUser(result.user);
+
+    redirect("/");
   };
 
   return (

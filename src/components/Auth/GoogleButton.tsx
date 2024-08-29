@@ -1,15 +1,7 @@
 "use client";
 
-import { supabaseBrowserClient } from "@lib/Auth/supabase";
-
 const GoogleButton = () => {
-  const signupWithGoogle = async () => {
-    const { data, error } = await supabaseBrowserClient.auth.signInWithOAuth({ provider: "google" });
-
-    console.log("data : ", data);
-
-    console.log("error : ", error);
-  };
+  const signupWithGoogle = async () => {};
 
   return <button onClick={() => signupWithGoogle()}>Sign Up with Google</button>;
 };

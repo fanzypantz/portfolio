@@ -1,9 +1,9 @@
 import "@styles/globals.scss";
-import { getServerUser } from "@lib/Auth/session";
 
 import Nav from "@components/Nav/Nav";
 import { ReactNode } from "react";
 import { UserProvider } from "@components/Auth/UserProvider";
+import { getSessionPayload } from "@lib/Auth/sessions";
 
 export const metadata = {
   title: "Create Next App",
@@ -11,7 +11,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const user = await getServerUser();
+  const user = await getSessionPayload();
 
   return (
     <html lang="en">
@@ -24,7 +24,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       </head>
 
       <body>
-        <UserProvider user={user}>
+        <UserProvider userData={user}>
           <Nav user={user} />
           {children}
         </UserProvider>

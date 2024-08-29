@@ -1,10 +1,12 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { loginAction } from "@components/Auth/actions/login";
+import { FormEvent, useContext, useState } from "react";
+import { loginAction } from "@components/Auth/actions/loginActions";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@components/Auth/UserProvider";
 
 const LoginForm = () => {
+  const { setUser } = useContext(UserContext);
   const { push } = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +21,9 @@ const LoginForm = () => {
       return;
     }
 
-    push("/ ");
+    setUser(result.user);
+
+    push("/");
   };
 
   return (

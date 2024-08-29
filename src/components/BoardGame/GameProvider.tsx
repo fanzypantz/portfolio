@@ -2,12 +2,9 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { createGameAction } from "@components/BoardGame/actions/createGame";
-import { Tables } from "@supabase/database.types";
 import { getGameAction } from "@components/BoardGame/actions/getGame";
 import { getPiecesAction } from "@components/BoardGame/actions/getPieces";
 import { LobbyContext } from "@components/Lobby/LobbyProvider";
-import { supabaseBrowserClient } from "@lib/Auth/supabase";
-import { RealtimePostgresInsertPayload, RealtimePostgresUpdatePayload } from "@supabase/realtime-js";
 import { closeGameAction } from "@components/BoardGame/actions/closeGame";
 
 export enum GameType {

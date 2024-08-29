@@ -1,46 +1,20 @@
 "use client";
 
-import { User } from "@supabase/gotrue-js";
-import { Tables } from "@supabase/database.types";
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { getUserProfileAction } from "@components/Auth/actions/getUserProfile";
+import { createContext, ReactNode, useState } from "react";
+import { UserSession } from "@lib/Auth/sessions";
 
 export interface UserContextInterface {
-  user?: User;
-  profile?: Tables<"profiles">;
+  user: UserSession | null;
+  setUser: (user: UserSession | null) => void;
 }
 
-export const UserContext = createContext({} as UserContextInterface);
+export const UserContext = createContext<UserContextInterface>({} as UserContextInterface);
 
-export const UserProvider = ({
-  children,
-  user,
-  profile
-}: {
-  children: ReactNode;
-  user?: User;
-  profile?: Tables<"profiles">;
-}) => {
-  const [userData, setUserData] = useState<User | undefined>(user);
-  const [profileData, setProfileData] = useState<Tables<"profiles"> | undefined>(profile);
+export const UserProvider = ({ children, userData }: { children: ReactNode; userData?: UserSession | null }) => {
+  // User is the name of the "data" that gets stored in context
+  const [user, setUser] = useState<UserSession | null>(userData || null);
 
-  useEffect(() => {
-    if (userData && profileData === undefined) {
-      getProfile();
-    }
-  }, [userData]);
+  console.log("userData : ", user);
 
-  const getProfile = async () => {
-    if (!userData) return;
-
-    const { data, error } = await getUserProfileAction(userData.id);
-
-    if (error) {
-      console.log("error : ", error);
-      throw error;
-    }
-    setProfileData(data);
-  };
-
-  return <UserContext.Provider value={{ user: userData, profile: profileData }}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };

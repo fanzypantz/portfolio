@@ -2,19 +2,17 @@
 
 import styles from "./Nav.module.scss";
 import Link from "next/link";
-import { User } from "@supabase/gotrue-js";
-import { MouseEvent, useContext } from "react";
+import { MouseEvent } from "react";
 import { useRouter } from "next/navigation";
-import { supabaseBrowserClient } from "@lib/Auth/supabase";
-import { UserContext } from "@components/Auth/UserProvider";
+import { UserSession } from "@lib/Auth/sessions";
+import { signOutAction } from "@components/Auth/actions/signOutAction";
 
-const Nav = ({ user }: { user?: User }) => {
-  const { profile } = useContext(UserContext);
+const Nav = ({ user }: { user?: UserSession | null }) => {
   const router = useRouter();
 
   const handleSignOut = async (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    await supabaseBrowserClient.auth.signOut();
+    await signOutAction();
     router.refresh();
   };
 
@@ -30,7 +28,7 @@ const Nav = ({ user }: { user?: User }) => {
               <a onClick={(e) => handleSignOut(e)}>Logout</a>
             </li>
             <li className={styles.navItem}>
-              <Link href="/auth/profile">Profile {profile?.username || user.email}</Link>
+              <Link href="/auth/profile">Profile {user?.username || user.email}</Link>
             </li>
           </>
         ) : (
