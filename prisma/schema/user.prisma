@@ -5,12 +5,19 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  username  String   @unique
-  email     String   @unique
-  password  String?
-  role      Role     @default(guest)
-  blocked   Boolean  @default(false)
+  id       String  @id @default(cuid())
+  username String  @unique
+  email    String  @unique
+  password String?
+  role     Role    @default(guest)
+  blocked  Boolean @default(false)
+
+  lobbyMembers LobbyMember[]
+  game         Game[]        @relation(name: "gameOwner")
+  wonGames     Game[]        @relation(name: "gameWinner")
+  gameMoves    GameMove[]
+  chatMessages ChatMessage[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
