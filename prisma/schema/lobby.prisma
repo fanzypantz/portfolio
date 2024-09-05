@@ -1,10 +1,11 @@
 model Lobby {
-  id       String  @id @default(cuid())
-  name     String  @unique
-  password String?
+  id         String  @id @default(cuid())
+  name       String  @unique
+  password   String?
+  maxPlayers Int     @default(2)
 
   lobbyMembers LobbyMember[]
-  game         Game?
+  games        Game[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

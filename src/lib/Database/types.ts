@@ -49,6 +49,7 @@ export type Lobby = {
     id: string;
     name: string;
     password: string | null;
+    maxPlayers: Generated<number>;
     createdAt: Generated<Timestamp>;
     updatedAt: Timestamp;
 };

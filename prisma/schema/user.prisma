@@ -13,7 +13,7 @@ model User {
   blocked  Boolean @default(false)
 
   lobbyMembers LobbyMember[]
-  game         Game[]        @relation(name: "gameOwner")
+  games        Game[]        @relation(name: "gameOwner")
   wonGames     Game[]        @relation(name: "gameWinner")
   gameMoves    GameMove[]
   chatMessages ChatMessage[]

@@ -4,7 +4,7 @@ import { Player } from "@lib/BoardGame/Player";
 import { Move, AbstractMove } from "@lib/BoardGame/Move";
 import { GameScore } from "@lib/BoardGame/GameScore";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { movePieceAction } from "@components/BoardGame/actions/movePiece";
+import { movePieceAction } from "@lib/BoardGame/actions/movePiece";
 
 export interface Game {
   get board(): Board;

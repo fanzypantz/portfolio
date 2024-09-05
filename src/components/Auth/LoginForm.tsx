@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useContext, useState } from "react";
-import { loginAction } from "@components/Auth/actions/loginActions";
+import { loginAction } from "@lib/Auth/actions/loginActions";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@components/Auth/UserProvider";
 

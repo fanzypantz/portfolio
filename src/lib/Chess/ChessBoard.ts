@@ -9,7 +9,7 @@ import Knight from "@lib/Chess/Knight";
 import Queen from "@lib/Chess/Queen";
 import King from "@lib/Chess/King";
 import { Tables } from "@supabase/database.types";
-import { createPiecesAction } from "@components/BoardGame/actions/createPieces";
+import { createPiecesAction } from "@lib/BoardGame/actions/createPieces";
 
 class ChessBoard extends AbstractBoard {
   constructor(game_id: number) {

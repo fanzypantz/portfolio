@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useContext, useState } from "react";
-import { signUpAction } from "@components/Auth/actions/signUpActions";
+import { signUpAction } from "@lib/Auth/actions/signUpActions";
 import { UserContext } from "@components/Auth/UserProvider";
 import { redirect } from "next/navigation";
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MouseEvent } from "react";
 import { useRouter } from "next/navigation";
 import { UserSession } from "@lib/Auth/sessions";
-import { signOutAction } from "@components/Auth/actions/signOutAction";
+import { signOutAction } from "@lib/Auth/actions/signOutAction";
 
 const Nav = ({ user }: { user?: UserSession | null }) => {
   const router = useRouter();
