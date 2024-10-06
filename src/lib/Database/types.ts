@@ -9,6 +9,7 @@ import type { GameStatus, Role } from "./enums";
 export type ChatMessage = {
     id: string;
     userId: string;
+    lobbyId: string;
     message: string;
     createdAt: Generated<Timestamp>;
     updatedAt: Timestamp;

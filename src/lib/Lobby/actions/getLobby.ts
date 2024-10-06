@@ -2,8 +2,8 @@
 
 import { getSessionPayload } from "@lib/Auth/sessions";
 import prisma from "@db/prisma";
-import { cookies } from "next/headers";
 import { LobbyType } from "@lib/Constants/types";
+import { getLobbyId } from "@lib/Lobby/lobbyStorage";
 
 export const getLobbyAction = async () => {
   const user = await getSessionPayload();
@@ -11,7 +11,7 @@ export const getLobbyAction = async () => {
     return { error: "No user found" };
   }
 
-  const lobbyId = cookies().get("lobbyId")?.value;
+  const lobbyId = getLobbyId();
   if (!lobbyId) {
     return { error: "No lobbyId found" };
   }

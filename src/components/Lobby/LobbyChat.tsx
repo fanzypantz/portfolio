@@ -2,10 +2,8 @@
 
 import { v4 as uuidv4 } from "uuid";
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { UserContext } from "@components/Auth/UserProvider";
 import ChatMessage from "@components/Lobby/ChatMessage";
-import { getUserProfileAction } from "@lib/Auth/actions/getUserProfile";
-import { Lobby } from "@prisma/client";
+import { LobbyContext } from "@components/Lobby/LobbyProvider";
 
 export interface Message {
   id: number;
@@ -18,18 +16,12 @@ export interface Message {
 
 // TODO move to server actions
 
-const LobbyChat = ({ lobby }: { lobby: Lobby }) => {
-  const { user } = useContext(UserContext);
+const LobbyChat = () => {
+  const { messages } = useContext(LobbyContext);
 
-  const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
-    if (!user) return;
-    if (!lobby) return;
-
-    initChat(lobby.id);
-
     // const supabaseChannel = supabaseBrowserClient
     //   .channel(`lobby:${lobby.id}`)
     //   .on(
@@ -48,27 +40,6 @@ const LobbyChat = ({ lobby }: { lobby: Lobby }) => {
     //   supabaseChannel.unsubscribe();
     // };
   }, []);
-
-  const initChat = async (lobbyId: number) => {
-    if (error) {
-      console.error(error);
-      return false;
-    }
-
-    const newMessages: Message[] =
-      data?.reverse().map((msg) => {
-        return {
-          id: msg.id,
-          uuid: msg.uuid,
-          message: msg.message,
-          username: msg.profiles?.username ?? "Anonymous",
-          profile_id: msg.profile_id,
-          lobby_id: msg.lobby_id
-        };
-      }) ?? [];
-
-    setMessages(newMessages);
-  };
 
   // const handleNewMessage = async (payload: RealtimePostgresInsertPayload<{ [p: string]: any }>) => {
   //   const message = payload.new as Tables<"chat_messages">;
@@ -134,7 +105,7 @@ const LobbyChat = ({ lobby }: { lobby: Lobby }) => {
 
       <div>
         {messages.map((message) => (
-          <ChatMessage key={message.uuid} message={message} />
+          <ChatMessage key={message.id} message={message} />
         ))}
 
         <form className="form" onSubmit={(e) => sendMessage(e)}>

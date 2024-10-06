@@ -27,7 +27,7 @@ const Lobby = () => {
       )}
 
       {joinStatus === JoinStatus.Joined && currentLobby && user && <LobbyInfo lobby={currentLobby} user={user} />}
-      {joinStatus === JoinStatus.Joined && currentLobby && <LobbyChat lobby={currentLobby} />}
+      {joinStatus === JoinStatus.Joined && currentLobby && <LobbyChat />}
 
       {lobbyStatus === LobbyStatus.Create && !currentLobby && <CreateLobbyForm />}
       {lobbyStatus === LobbyStatus.Join && !currentLobby && <JoinLobbyForm />}

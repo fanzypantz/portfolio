@@ -1,10 +1,10 @@
-import { Message } from "@components/Lobby/LobbyChat";
+import { ChatMessageType } from "@lib/Constants/types";
 
-const ChatMessage = ({ message }: { message: Message }) => {
+const ChatMessage = ({ message }: { message: ChatMessageType }) => {
   return (
     <div key={message.id}>
       <div>
-        <span>{message.username}</span>
+        <span>{message.user.username}</span>
         <span>: </span>
         <span>{message.message}</span>
       </div>

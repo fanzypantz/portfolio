@@ -4,7 +4,7 @@ import { getSessionPayload } from "@lib/Auth/sessions";
 import { hashPassword } from "@lib/Auth/hashing";
 import prisma from "@db/prisma";
 import { LobbyType } from "@lib/Constants/types";
-import { cookies } from "next/headers";
+import { saveLobbyId } from "@lib/Lobby/lobbyStorage";
 
 export const createLobbyAction = async (name: string, password: string) => {
   const user = await getSessionPayload();
@@ -42,11 +42,7 @@ export const createLobbyAction = async (name: string, password: string) => {
   }
 
   // Save lobby ID to cookie as secure https-only cookie
-  cookies().set("lobbyId", lobby.id.toString(), {
-    httpOnly: true,
-    secure: true,
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) // 7 days
-  });
+  saveLobbyId(lobby.id.toString());
 
   delete (lobby as any).password;
   for (const member of lobby.lobbyMembers) {

@@ -8,7 +8,7 @@ import { UserContext } from "@components/Auth/UserProvider";
 import { leaveLobbyAction } from "@lib/Lobby/actions/leaveLobby";
 import { getUserProfileAction } from "@lib/Auth/actions/getUserProfile";
 import { Lobby, User } from "@prisma/client";
-import { LobbyType } from "@lib/Constants/types";
+import { ChatMessageType, LobbyType } from "@lib/Constants/types";
 
 export enum LobbyStatus {
   None = "none",
@@ -29,8 +29,10 @@ export enum JoinStatus {
 export interface LobbyContextInterface {
   currentLobby: Lobby | null;
   players: User[];
+  messages: ChatMessageType[];
   joinStatus: JoinStatus;
   lobbyStatus: LobbyStatus;
+  setMessages: (messages: ChatMessageType[]) => void;
   createLobby: (name: string, password: string) => Promise<boolean>;
   joinLobby: (name: string, password: string) => Promise<boolean>;
   leaveLobby: () => void;
@@ -42,15 +44,18 @@ export const LobbyContext = createContext({} as LobbyContextInterface);
 
 export const LobbyProvider = ({
   children,
-  loadedLobby
+  loadedLobby,
+  loadedMessages
 }: {
   children: JSX.Element | JSX.Element[];
   loadedLobby: LobbyType | null;
+  loadedMessages: ChatMessageType[] | null;
 }) => {
   const { user } = useContext(UserContext);
   const [currentLobby, setCurrentLobby] = useState<Lobby | null>(loadedLobby);
   const [joinStatus, setJoinStatus] = useState<JoinStatus>(JoinStatus.None);
   const [lobbyStatus, setLobbyStatus] = useState<LobbyStatus>(LobbyStatus.None);
+  const [messages, setMessages] = useState<ChatMessageType[]>(loadedMessages || []);
   const [players, setPlayers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -190,31 +195,33 @@ export const LobbyProvider = ({
   //   removePlayer(lobby_player.player_id);
   // };
 
-  const addPlayer = async (profile_id: string) => {
-    const user = await getUserProfileAction(profile_id);
-    console.log("Adding player", profile_id, user);
-
-    if (!user) {
-      console.error("No profile");
-      return;
-    }
-
-    setPlayers([...players, user]);
-  };
-
-  const removePlayer = (profile_id: string) => {
-    console.log("Removing player", profile_id);
-
-    setPlayers([...players.filter((p) => p.id !== profile_id)]);
-  };
+  // const addPlayer = async (profile_id: string) => {
+  //   const user = await getUserProfileAction(profile_id);
+  //   console.log("Adding player", profile_id, user);
+  //
+  //   if (!user) {
+  //     console.error("No profile");
+  //     return;
+  //   }
+  //
+  //   setPlayers([...players, user]);
+  // };
+  //
+  // const removePlayer = (profile_id: string) => {
+  //   console.log("Removing player", profile_id);
+  //
+  //   setPlayers([...players.filter((p) => p.id !== profile_id)]);
+  // };
 
   return (
     <LobbyContext.Provider
       value={{
         currentLobby,
         players,
+        messages,
         joinStatus,
         lobbyStatus,
+        setMessages,
         createLobby,
         joinLobby,
         leaveLobby,

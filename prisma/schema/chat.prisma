@@ -1,8 +1,11 @@
 model ChatMessage {
   id String @id @default(cuid())
 
-  userId String @unique
+  userId String
   user   User   @relation(fields: [userId], references: [id])
+
+  lobbyId String
+  lobby   Lobby  @relation(fields: [lobbyId], references: [id])
 
   message String
 

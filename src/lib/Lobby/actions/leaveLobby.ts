@@ -3,6 +3,7 @@
 import { getSessionPayload } from "@lib/Auth/sessions";
 import prisma from "@db/prisma";
 import { cookies } from "next/headers";
+import { removeLobbyId } from "@lib/Lobby/lobbyStorage";
 
 export const leaveLobbyAction = async (): Promise<boolean> => {
   const user = await getSessionPayload();
@@ -48,7 +49,7 @@ export const leaveLobbyAction = async (): Promise<boolean> => {
   }
 
   // Remove cookie
-  cookies().delete("lobbyId");
+  removeLobbyId();
 
   return true;
 };

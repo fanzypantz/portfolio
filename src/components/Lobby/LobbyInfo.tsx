@@ -13,8 +13,6 @@ const LobbyInfo = ({ lobby, user }: { lobby: Lobby; user: User }) => {
     return null;
   }
 
-  console.log("players : ", players);
-
   return (
     <div>
       <div>Lobby name: {lobby.name}</div>

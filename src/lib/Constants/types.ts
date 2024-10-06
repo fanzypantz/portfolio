@@ -12,3 +12,13 @@ export type LobbyMemberType = LobbyMember & {
 export type UserType = User & {
   password?: string | null;
 };
+
+export type ChatMessageType = {
+  id: string;
+  message: string;
+  createdAt: Date;
+  user: {
+    id: string;
+    username: string;
+  };
+};

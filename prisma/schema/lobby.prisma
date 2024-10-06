@@ -6,6 +6,7 @@ model Lobby {
 
   lobbyMembers LobbyMember[]
   games        Game[]
+  chatMessages ChatMessage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
