@@ -12,20 +12,20 @@ import { UserContext } from "@components/Auth/UserProvider";
 const Lobby = () => {
   const { user } = useContext(UserContext);
 
-  const { currentLobby, joinStatus, lobbyStatus, leaveLobby, setLobbyStatus } = useContext(LobbyContext);
+  const { currentLobby, joinStatus, lobbyStatus, setLobbyStatus } = useContext(LobbyContext);
 
   return (
     <div className={styles.container}>
       <h3>Lobby</h3>
 
-      {currentLobby && <button onClick={() => leaveLobby()}>Leave Lobby</button>}
-
+      {/*TODO: Move this to a separate component*/}
       {lobbyStatus === LobbyStatus.None && !currentLobby && (
         <button onClick={() => setLobbyStatus(LobbyStatus.Create)}>Create Lobby</button>
       )}
       {lobbyStatus === LobbyStatus.None && !currentLobby && (
         <button onClick={() => setLobbyStatus(LobbyStatus.Join)}>Join Lobby</button>
       )}
+
       {joinStatus === JoinStatus.Joined && currentLobby && user && <LobbyInfo lobby={currentLobby} user={user} />}
       {joinStatus === JoinStatus.Joined && currentLobby && <LobbyChat lobby={currentLobby} />}
 

@@ -3,16 +3,18 @@
 import { getSessionPayload } from "@lib/Auth/sessions";
 import { hashPassword } from "@lib/Auth/hashing";
 import prisma from "@db/prisma";
+import { LobbyType } from "@lib/Constants/types";
+import { cookies } from "next/headers";
 
 export const createLobbyAction = async (name: string, password: string) => {
   const user = await getSessionPayload();
   if (!user) {
-    return;
+    return { error: "No user found" };
   }
 
   const hashedPassword = hashPassword(password);
 
-  const lobby = await prisma.lobby.create({
+  const lobby: LobbyType = await prisma.lobby.create({
     data: {
       name: name,
       password: hashedPassword,
@@ -36,10 +38,20 @@ export const createLobbyAction = async (name: string, password: string) => {
   });
 
   if (!lobby) {
-    return;
+    return { error: "Failed to create lobby" };
   }
 
-  lobby.password = null;
+  // Save lobby ID to cookie as secure https-only cookie
+  cookies().set("lobbyId", lobby.id.toString(), {
+    httpOnly: true,
+    secure: true,
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) // 7 days
+  });
 
-  return lobby;
+  delete (lobby as any).password;
+  for (const member of lobby.lobbyMembers) {
+    delete (member as any).user.password;
+  }
+
+  return { lobby };
 };

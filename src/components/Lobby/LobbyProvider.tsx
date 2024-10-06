@@ -8,6 +8,7 @@ import { UserContext } from "@components/Auth/UserProvider";
 import { leaveLobbyAction } from "@lib/Lobby/actions/leaveLobby";
 import { getUserProfileAction } from "@lib/Auth/actions/getUserProfile";
 import { Lobby, User } from "@prisma/client";
+import { LobbyType } from "@lib/Constants/types";
 
 export enum LobbyStatus {
   None = "none",
@@ -39,12 +40,34 @@ export interface LobbyContextInterface {
 
 export const LobbyContext = createContext({} as LobbyContextInterface);
 
-export const LobbyProvider = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
+export const LobbyProvider = ({
+  children,
+  loadedLobby
+}: {
+  children: JSX.Element | JSX.Element[];
+  loadedLobby: LobbyType | null;
+}) => {
   const { user } = useContext(UserContext);
-  const [currentLobby, setCurrentLobby] = useState<Lobby | null>(null);
+  const [currentLobby, setCurrentLobby] = useState<Lobby | null>(loadedLobby);
   const [joinStatus, setJoinStatus] = useState<JoinStatus>(JoinStatus.None);
   const [lobbyStatus, setLobbyStatus] = useState<LobbyStatus>(LobbyStatus.None);
   const [players, setPlayers] = useState<User[]>([]);
+
+  useEffect(() => {
+    let newLobby: LobbyType | null = loadedLobby;
+
+    if (!newLobby) {
+      fetchLobby().then((lobby) => {
+        newLobby = lobby;
+      });
+    }
+
+    if (newLobby) {
+      setCurrentLobby(newLobby);
+      setPlayers(newLobby.lobbyMembers.map((member) => member.user));
+      setJoinStatus(JoinStatus.Joined);
+    }
+  }, [loadedLobby]);
 
   useEffect(() => {
     if (!currentLobby) return;
@@ -86,22 +109,31 @@ export const LobbyProvider = ({ children }: { children: JSX.Element | JSX.Elemen
   }, [currentLobby]);
 
   const fetchLobby = async () => {
-    const lobby = await getLobbyAction();
+    const { error, lobby } = await getLobbyAction();
+
+    if (error) {
+      console.error(error);
+      return null;
+    }
 
     if (!lobby) {
       console.error("Lobby not found");
-      return false;
+      return null;
     }
 
-    setCurrentLobby(lobby);
+    return lobby;
   };
 
   const createLobby = async (name: string, password: string): Promise<boolean> => {
     setJoinStatus(JoinStatus.Creating);
-    const lobby = await createLobbyAction(name, password);
+    const { error, lobby } = await createLobbyAction(name, password);
+
+    if (error) {
+      setJoinStatus(JoinStatus.Failed);
+      return false;
+    }
 
     if (!lobby) {
-      console.error("Lobby not created");
       setJoinStatus(JoinStatus.Failed);
       return false;
     }

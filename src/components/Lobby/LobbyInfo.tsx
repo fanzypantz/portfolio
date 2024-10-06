@@ -1,14 +1,12 @@
 "use client";
 
-import { Tables } from "@supabase/database.types";
 import { GameContext } from "@components/BoardGame/GameProvider";
 import { useContext } from "react";
-import { UserContext } from "@components/Auth/UserProvider";
 import { LobbyContext } from "@components/Lobby/LobbyProvider";
-import { User } from "@supabase/gotrue-js";
+import { Lobby, User } from "@prisma/client";
 
-const LobbyInfo = ({ lobby, user }: { lobby: Tables<"lobbies">; user: User }) => {
-  const { players } = useContext(LobbyContext);
+const LobbyInfo = ({ lobby, user }: { lobby: Lobby; user: User }) => {
+  const { players, currentLobby, leaveLobby } = useContext(LobbyContext);
   const { currentGameType, createGame, closeGame } = useContext(GameContext);
 
   if (!user) {
@@ -20,6 +18,7 @@ const LobbyInfo = ({ lobby, user }: { lobby: Tables<"lobbies">; user: User }) =>
   return (
     <div>
       <div>Lobby name: {lobby.name}</div>
+      {currentLobby && <button onClick={() => leaveLobby()}>Leave Lobby</button>}
 
       <div>
         <div>Players:</div>
