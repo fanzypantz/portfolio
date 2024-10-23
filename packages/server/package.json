@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "socket.io": "^4.8.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0"
+  }
+}
