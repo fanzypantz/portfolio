@@ -22,6 +22,11 @@ lerna-debug.log*
 !.yarn/sdks
 !.yarn/versions
 
+# Exclude Yarn folders in packages
+packages/**/.yarn
+packages/**/.yarnrc.yml
+packages/**/yarn.lock
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
