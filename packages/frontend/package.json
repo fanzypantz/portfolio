@@ -17,7 +17,7 @@
     "kysely": "^0.27.5",
     "mobx": "^6.13.5",
     "mobx-react-lite": "^4.0.7",
-    "next": "15.0.4",
+    "next": "15.1.2",
     "prisma-kysely": "^1.8.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
@@ -25,7 +25,8 @@
     "three": "^0.171.0",
     "typescript": "5.5.4",
     "uuid": "^11.0.3",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "15.0.4",
