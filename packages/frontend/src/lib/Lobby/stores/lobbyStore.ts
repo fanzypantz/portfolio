@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { createLobbyAction } from "@lib/Lobby/actions/createLobby";
 import { joinLobbyAction } from "@lib/Lobby/actions/joinLobby";
 import { leaveLobbyAction } from "@lib/Lobby/actions/leaveLobby";
-import { getGameAction } from "@lib/BoardGame/getters/getGame";
 import { createGameAction } from "@lib/BoardGame/actions/createGame";
 import { closeGameAction } from "@lib/BoardGame/actions/closeGame";
 import { Lobby, User, Game, GamePiece } from "@prisma/client";
@@ -39,7 +38,6 @@ interface LobbyStore {
   setCurrentGame: (game: Game | null) => void;
   setCurrentPieces: (pieces: GamePiece[] | null) => void;
   createGame: () => Promise<void>;
-  fetchGame: (gameId: string) => Promise<void>;
   closeGame: () => Promise<void>;
 }
 
@@ -150,15 +148,6 @@ export const useLobbyStore = create<LobbyStore>((set, get) => ({
     }
     const data = await createGameAction(currentLobby.id);
 
-    set({ currentGame: data });
-  },
-
-  fetchGame: async (gameId) => {
-    const data = await getGameAction(gameId);
-    if (data) {
-      console.error("Game not found");
-      return;
-    }
     set({ currentGame: data });
   },
 

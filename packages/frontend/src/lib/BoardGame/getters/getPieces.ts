@@ -2,7 +2,7 @@ import "server-only";
 import { getSessionPayload } from "@lib/Auth/sessions";
 import prisma from "@db/prisma";
 
-export const getPiecesAction = async (gameId: string) => {
+export const getPieces = async (gameId: string) => {
   const user = await getSessionPayload();
   if (!user) {
     return;
