@@ -1,9 +1,12 @@
 "use client";
 
 import { v4 as uuidv4 } from "uuid";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import ChatMessage from "@components/Lobby/ChatMessage";
 import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
+import { UserContext } from "@components/Auth/UserProvider";
+import { ChatMessageType } from "@lib/Constants/types";
+import { sendMessageAction } from "@lib/Lobby/Chat/actions/sendMessageAction";
 
 export interface Message {
   id: number;
@@ -17,7 +20,8 @@ export interface Message {
 // TODO move to server actions
 
 const LobbyChat = () => {
-  const { messages } = useLobbyStore();
+  const { user } = useContext(UserContext);
+  const { currentLobby, messages, addMessage, removeMessage } = useLobbyStore();
 
   const [message, setMessage] = useState<string>("");
 
@@ -62,39 +66,29 @@ const LobbyChat = () => {
   const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!message || message.length === 0) return;
+    if (!user || !message || message.length === 0 || !currentLobby) return;
     const uuid = uuidv4();
-    const randomInt = Math.floor(Math.random() * 1000000) * -1;
 
     // // Optimistically add message to UI
-    // setMessages([
-    //   ...messages,
-    //   {
-    //     id: randomInt,
-    //     uuid,
-    //     message,
-    //     username: profile?.username || "Anonymous",
-    //     profile_id: profile?.id ?? null,
-    //     lobby_id: lobby.id
-    //   }
-    // ]);
-    //
-    // const { data, error } = await supabaseBrowserClient
-    //   .from("chat_messages")
-    //   .insert({
-    //     uuid,
-    //     message,
-    //     profile_id: profile?.id,
-    //     lobby_id: lobby.id
-    //   })
-    //   .select();
-    //
-    // if (error) {
-    //   console.error(error);
-    //   // Revert UI changes if error
-    //   setMessages([...messages.filter((msg) => msg.uuid !== uuid)]);
-    //   return false;
-    // }
+    const newMessage: ChatMessageType = {
+      id: uuid,
+      message,
+      createdAt: new Date(),
+      user: {
+        id: user.id,
+        username: user.username
+      }
+    };
+    addMessage(newMessage);
+
+    const result = await sendMessageAction(currentLobby.id, newMessage);
+
+    if (result.error) {
+      console.error(result.error);
+      // Revert UI changes if error
+      removeMessage(newMessage);
+      return;
+    }
 
     setMessage("");
   };
