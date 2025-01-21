@@ -1,11 +1,12 @@
 import styles from "./page.module.css";
 import Lobby from "@components/Lobby/Lobby";
-import { getLobbyMessagesAction } from "@lib/Lobby/Chat/actions/getLobbyMessages";
 import ClientLobbyInitializer from "@components/Lobby/ClientLobbyInitializer";
-import { ChatMessageType, LobbyType } from "@lib/Constants/types";
 import { getSessionPayload } from "@lib/Auth/sessions";
 import { getLobbyIdCookie } from "@lib/Lobby/lobbyStorage";
-import { getLobby } from "@lib/Lobby/services/getLobby";
+import { getLobby } from "@lib/Lobby/getters/getLobby";
+import { getLobbyMessages } from "@lib/Lobby/Chat/getters/getLobbyMessages";
+import { ChatMessageType } from "@lib/Lobby/Chat/types";
+import { LobbyType } from "@lib/Lobby/types";
 
 export default async function Home() {
   let lobby: LobbyType | undefined;
@@ -20,7 +21,7 @@ export default async function Home() {
       console.error(lobbyError);
     }
 
-    const { error: messagesError, messages: messagesData } = await getLobbyMessagesAction(lobbyId);
+    const { error: messagesError, messages: messagesData } = await getLobbyMessages(lobbyId);
 
     if (messagesError) {
       console.error(messagesError);

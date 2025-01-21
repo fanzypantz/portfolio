@@ -5,8 +5,8 @@ import { FormEvent, useContext, useEffect, useState } from "react";
 import ChatMessage from "@components/Lobby/ChatMessage";
 import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
 import { UserContext } from "@components/Auth/UserProvider";
-import { ChatMessageType } from "@lib/Constants/types";
 import { sendMessageAction } from "@lib/Lobby/Chat/actions/sendMessageAction";
+import { ChatMessageType } from "@lib/Lobby/Chat/types";
 
 export interface Message {
   id: number;

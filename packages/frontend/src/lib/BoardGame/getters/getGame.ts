@@ -1,9 +1,8 @@
-"use server";
-
+import "server-only";
 import { getSessionPayload } from "@lib/Auth/sessions";
 import prisma from "@db/prisma";
 
-export const getPiecesAction = async (gameId: string) => {
+export const getGameAction = async (id: string) => {
   const user = await getSessionPayload();
   if (!user) {
     return;
@@ -11,15 +10,17 @@ export const getPiecesAction = async (gameId: string) => {
 
   const game = await prisma.game.findUnique({
     where: {
-      id: gameId
+      id: id
     },
     include: {
-      pieces: true,
       lobby: {
         include: {
           lobbyMembers: true
         }
-      }
+      },
+      owner: true,
+      winner: true,
+      pieces: true
     }
   });
 
@@ -28,6 +29,6 @@ export const getPiecesAction = async (gameId: string) => {
   }
 
   if (game.lobby.lobbyMembers.find((member) => member.userId === user.id)) {
-    return game.pieces;
+    return game;
   }
 };

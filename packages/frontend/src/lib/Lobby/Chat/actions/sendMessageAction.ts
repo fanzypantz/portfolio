@@ -2,7 +2,8 @@
 
 import { getSessionPayload } from "@lib/Auth/sessions";
 import prisma from "@db/prisma";
-import { ChatMessageType } from "@lib/Constants/types";
+
+import { ChatMessageType } from "@lib/Lobby/Chat/types";
 
 export const sendMessageAction = async (lobbyId: string, message: ChatMessageType) => {
   const user = await getSessionPayload();

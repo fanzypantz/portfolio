@@ -1,13 +1,12 @@
 import "server-only";
 
-import { SignJWT, jwtVerify, JWTPayload } from "jose";
+import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { User } from "@prisma/client";
+import { UserSession } from "@lib/Auth/types";
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
-
-export type UserSession = User & JWTPayload;
 
 export const encrypt = (payload: User) => {
   payload.password = null; // Make sure to remove the password from the payload

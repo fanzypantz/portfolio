@@ -2,13 +2,14 @@ import { create } from "zustand";
 import { createLobbyAction } from "@lib/Lobby/actions/createLobby";
 import { joinLobbyAction } from "@lib/Lobby/actions/joinLobby";
 import { leaveLobbyAction } from "@lib/Lobby/actions/leaveLobby";
-import { getGameAction } from "@lib/BoardGame/actions/getGame";
+import { getGameAction } from "@lib/BoardGame/getters/getGame";
 import { createGameAction } from "@lib/BoardGame/actions/createGame";
 import { closeGameAction } from "@lib/BoardGame/actions/closeGame";
 import { Lobby, User, Game, GamePiece } from "@prisma/client";
-import { ChatMessageType, LobbyType } from "@lib/Constants/types";
 import { JoinStatus, LobbyStatus } from "@lib/Lobby/enums";
 import { GameTypes } from "@lib/BoardGame/enums";
+import { ChatMessageType } from "@lib/Lobby/Chat/types";
+import { LobbyType } from "@lib/Lobby/types";
 
 interface LobbyStore {
   // Lobby State

@@ -1,9 +1,10 @@
 "use client";
 
 import { useLobbyStore } from "@/lib/Lobby/stores/lobbyStore";
-import { ChatMessageType, LobbyType } from "@lib/Constants/types";
 import { useEffect } from "react";
 import { JoinStatus } from "@lib/Lobby/enums";
+import { ChatMessageType } from "@lib/Lobby/Chat/types";
+import { LobbyType } from "@lib/Lobby/types";
 
 function ClientLobbyInitializer({
   loadedLobby,

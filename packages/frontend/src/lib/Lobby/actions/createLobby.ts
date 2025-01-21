@@ -3,8 +3,8 @@
 import { getSessionPayload } from "@lib/Auth/sessions";
 import { hashPassword } from "@lib/Auth/hashing";
 import prisma from "@db/prisma";
-import { LobbyType } from "@lib/Constants/types";
 import { saveLobbyIdCookie } from "@lib/Lobby/lobbyStorage";
+import { LobbyType } from "@lib/Lobby/types";
 
 export const createLobbyAction = async (name: string, password: string) => {
   const user = await getSessionPayload();

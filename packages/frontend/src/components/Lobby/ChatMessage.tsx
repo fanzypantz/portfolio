@@ -1,4 +1,4 @@
-import { ChatMessageType } from "@lib/Constants/types";
+import { ChatMessageType } from "@lib/Lobby/Chat/types";
 
 const ChatMessage = ({ message }: { message: ChatMessageType }) => {
   return (

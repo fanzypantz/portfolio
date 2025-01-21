@@ -1,6 +1,6 @@
-import { getUserProfileAction } from "@lib/Auth/actions/getUserProfile";
 import { redirect } from "next/navigation";
 import { getSessionPayload } from "@lib/Auth/sessions";
+import { getUser } from "@lib/Auth/getters/getUser";
 
 const ProfilePage = async () => {
   const session = await getSessionPayload();
@@ -8,7 +8,7 @@ const ProfilePage = async () => {
     return redirect("/auth/login");
   }
 
-  const user = await getUserProfileAction(session.id);
+  const user = await getUser(session.id);
   if (!user) {
     return redirect("/auth/login");
   }

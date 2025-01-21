@@ -1,9 +1,8 @@
-"use server";
-
+import "server-only";
 import { getSessionPayload } from "@lib/Auth/sessions";
 import prisma from "@db/prisma";
 
-export const getLobbyMessagesAction = async (lobbyId: string) => {
+export const getLobbyMessages = async (lobbyId: string) => {
   const user = await getSessionPayload();
   if (!user) {
     return { error: "getLobbyMessagesAction:No user found" };

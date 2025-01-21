@@ -1,9 +1,8 @@
-"use server";
-
-import prisma from "@db/prisma";
+import "server-only";
 import { getSessionPayload } from "@lib/Auth/sessions";
+import prisma from "@db/prisma";
 
-export const getUserProfileAction = async (userId: string) => {
+export const getUser = async (userId: string) => {
   const userSession = await getSessionPayload();
 
   if (!userSession) {

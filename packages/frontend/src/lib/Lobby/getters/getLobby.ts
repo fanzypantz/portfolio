@@ -1,7 +1,7 @@
 import "server-only";
 import { getSessionPayload } from "@lib/Auth/sessions";
-import { LobbyType } from "@lib/Constants/types";
 import prisma from "@db/prisma";
+import { LobbyType } from "@lib/Lobby/types";
 
 export const getLobby = async (lobbyId: string): Promise<{ error?: string; lobby?: LobbyType }> => {
   const user = await getSessionPayload();
