@@ -14,7 +14,5 @@ export const UserProvider = ({ children, userData }: { children: ReactNode; user
   // User is the name of the "data" that gets stored in context
   const [user, setUser] = useState<UserSession | null>(userData || null);
 
-  console.log("userData : ", user);
-
   return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
