@@ -1,13 +1,10 @@
 "use client";
 
-import { GameContext } from "@components/BoardGame/GameProvider";
-import { useContext } from "react";
-import { LobbyContext } from "@components/Lobby/LobbyProvider";
 import { Lobby, User } from "@prisma/client";
+import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
 
 const LobbyInfo = ({ lobby, user }: { lobby: Lobby; user: User }) => {
-  const { players, currentLobby, leaveLobby } = useContext(LobbyContext);
-  const { currentGameType, createGame, closeGame } = useContext(GameContext);
+  const { currentLobby, players, createGame, closeGame, currentGameType, leaveLobby } = useLobbyStore();
 
   if (!user) {
     return null;
@@ -28,7 +25,7 @@ const LobbyInfo = ({ lobby, user }: { lobby: Lobby; user: User }) => {
       {currentGameType ? (
         <button onClick={() => closeGame()}>Close Game</button>
       ) : (
-        <button onClick={() => createGame(lobby.id, user.id)}>Create Game</button>
+        <button onClick={() => createGame()}>Create Game</button>
       )}
     </div>
   );

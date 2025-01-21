@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
-    "@react-three/drei": "^9.121.2",
+    "@react-three/drei": "^9.121.3",
     "@react-three/fiber": "^9.0.0-rc.4",
     "bcrypt": "^5.1.1",
     "jose": "^5.9.6",

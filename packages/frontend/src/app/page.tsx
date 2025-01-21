@@ -1,34 +1,41 @@
 import styles from "./page.module.css";
-import { LobbyProvider } from "@components/Lobby/LobbyProvider";
-import { GameProvider } from "@components/BoardGame/GameProvider";
 import Lobby from "@components/Lobby/Lobby";
 import { getLobbyAction } from "@lib/Lobby/actions/getLobby";
 import { getLobbyMessagesAction } from "@lib/Lobby/Chat/actions/getLobbyMessages";
+import ClientLobbyInitializer from "@components/Lobby/ClientLobbyInitializer";
+import { ChatMessageType, LobbyType } from "@lib/Constants/types";
+import { getSessionPayload } from "@lib/Auth/sessions";
+import { getLobbyIdCookie } from "@lib/Lobby/lobbyStorage";
 
 export default async function Home() {
-  const { error: lobbyError, lobby } = await getLobbyAction();
+  let lobby: LobbyType | undefined;
+  let messages: ChatMessageType[] | undefined;
 
-  if (lobbyError) {
-    console.error(lobbyError);
+  const user = await getSessionPayload();
+  const lobbyId = await getLobbyIdCookie();
+  if (user && lobbyId) {
+    const { error: lobbyError, lobby: lobbyData } = await getLobbyAction(lobbyId);
+
+    if (lobbyError) {
+      console.error(lobbyError);
+    }
+
+    const { error: messagesError, messages: messagesData } = await getLobbyMessagesAction(lobbyId);
+
+    if (messagesError) {
+      console.error(messagesError);
+    }
+
+    lobby = lobbyData;
+    messages = messagesData;
   }
-
-  const { error: messagesError, messages } = await getLobbyMessagesAction();
-
-  if (messagesError) {
-    console.error(messagesError);
-  }
-
-  console.log("messages", messages);
 
   return (
     <main className={styles.main}>
-      <LobbyProvider loadedLobby={lobby || null} loadedMessages={messages || []}>
-        <GameProvider>
-          {/*<Game />*/}
+      {user && <ClientLobbyInitializer loadedLobby={lobby || null} loadedMessages={messages || null} />}
+      {user && <Lobby />}
 
-          <Lobby />
-        </GameProvider>
-      </LobbyProvider>
+      {/*<Game />*/}
     </main>
   );
 }

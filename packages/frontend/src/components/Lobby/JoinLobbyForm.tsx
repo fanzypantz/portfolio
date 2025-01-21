@@ -1,9 +1,11 @@
-import { FormEvent, useContext, useState } from "react";
-import { LobbyContext } from "@components/Lobby/LobbyProvider";
+"use client";
+
+import { FormEvent, useState } from "react";
 import styles from "@components/Lobby/Lobby.module.scss";
+import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
 
 const JoinLobbyForm = () => {
-  const { joinLobby } = useContext(LobbyContext);
+  const { joinLobby } = useLobbyStore();
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");

@@ -1,9 +1,9 @@
 "use client";
 
 import { v4 as uuidv4 } from "uuid";
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import ChatMessage from "@components/Lobby/ChatMessage";
-import { LobbyContext } from "@components/Lobby/LobbyProvider";
+import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
 
 export interface Message {
   id: number;
@@ -17,7 +17,7 @@ export interface Message {
 // TODO move to server actions
 
 const LobbyChat = () => {
-  const { messages } = useContext(LobbyContext);
+  const { messages } = useLobbyStore();
 
   const [message, setMessage] = useState<string>("");
 

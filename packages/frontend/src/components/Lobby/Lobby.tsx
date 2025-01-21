@@ -1,18 +1,19 @@
 "use client";
 
 import styles from "./Lobby.module.scss";
-import { JoinStatus, LobbyContext, LobbyStatus } from "@components/Lobby/LobbyProvider";
 import { useContext } from "react";
 import LobbyInfo from "@components/Lobby/LobbyInfo";
 import CreateLobbyForm from "@components/Lobby/CreateLobbyForm";
 import LobbyChat from "@components/Lobby/LobbyChat";
 import JoinLobbyForm from "@components/Lobby/JoinLobbyForm";
 import { UserContext } from "@components/Auth/UserProvider";
+import { useLobbyStore } from "@/lib/Lobby/stores/lobbyStore";
+import { JoinStatus, LobbyStatus } from "@lib/Lobby/enums";
 
 const Lobby = () => {
   const { user } = useContext(UserContext);
 
-  const { currentLobby, joinStatus, lobbyStatus, setLobbyStatus } = useContext(LobbyContext);
+  const { currentLobby, joinStatus, lobbyStatus, setLobbyStatus } = useLobbyStore();
 
   return (
     <div className={styles.container}>

@@ -1,11 +1,11 @@
 "use client";
 
 import styles from "./Lobby.module.scss";
-import { FormEvent, useContext, useState } from "react";
-import { LobbyContext } from "@components/Lobby/LobbyProvider";
+import { FormEvent, useState } from "react";
+import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
 
 const CreateLobbyForm = () => {
-  const { createLobby } = useContext(LobbyContext);
+  const { createLobby } = useLobbyStore();
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
