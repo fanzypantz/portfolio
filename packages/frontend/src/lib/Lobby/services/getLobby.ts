@@ -1,21 +1,16 @@
-"use server";
-
+import "server-only";
 import { getSessionPayload } from "@lib/Auth/sessions";
-import prisma from "@db/prisma";
 import { LobbyType } from "@lib/Constants/types";
+import prisma from "@db/prisma";
 
-export const getLobbyAction = async (lobbyId: string) => {
-  // TODO abstract the method to a function,
-  //  so we can use it directly on the server instead of having to call the action on the server
+export const getLobby = async (lobbyId: string): Promise<{ error?: string; lobby?: LobbyType }> => {
   const user = await getSessionPayload();
   if (!user) {
-    return { error: "getLobbyAction: No user found" };
+    return { error: "No user found" };
   }
   if (!lobbyId) {
-    return { error: "getLobbyAction: No lobbyId found" };
+    return { error: "No lobbyId found" };
   }
-
-  console.log("lobbyId", lobbyId);
 
   const lobby: LobbyType | null = await prisma.lobby.findUnique({
     where: {
