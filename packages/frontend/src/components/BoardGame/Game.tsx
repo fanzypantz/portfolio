@@ -1,11 +1,10 @@
 "use client";
 
-import { GameContext } from "@components/BoardGame/GameProvider";
-import { ReactNode, useContext } from "react";
 import ChessGame from "@components/Chess/ChessGame";
+import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
 
 const Game = () => {
-  const { currentGameType, currentGame, currentPieces } = useContext(GameContext);
+  const { currentGame, currentGameType } = useLobbyStore();
 
   if (!currentGame) {
     return null; // TODO: Add loading screen

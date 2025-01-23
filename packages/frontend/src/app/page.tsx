@@ -7,6 +7,7 @@ import { getLobby } from "@lib/Lobby/getters/getLobby";
 import { getLobbyMessages } from "@lib/Lobby/Chat/getters/getLobbyMessages";
 import { ChatMessageType } from "@lib/Lobby/Chat/types";
 import { LobbyType } from "@lib/Lobby/types";
+import Game from "@components/BoardGame/Game";
 
 export default async function Home() {
   let lobby: LobbyType | undefined;
@@ -36,7 +37,7 @@ export default async function Home() {
       {user && <ClientLobbyInitializer loadedLobby={lobby || null} loadedMessages={messages || null} />}
       {user && <Lobby />}
 
-      {/*<Game />*/}
+      <Game />
     </main>
   );
 }
