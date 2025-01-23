@@ -1,6 +1,7 @@
-@import "variables";
-@import "normalize";
-@import "Forms";
+@forward "normalize";
+@forward "Forms";
+
+@use "variables" as *;
 
 * {
     min-width: 0;
