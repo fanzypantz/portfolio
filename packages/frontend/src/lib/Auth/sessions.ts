@@ -27,7 +27,7 @@ export const decrypt = async (token: string) => {
     payload.password = null; // Make sure to remove the password from the payload
     return payload;
   } catch {
-    console.error("Failed to verify session");
+    await destroySession();
   }
 };
 
