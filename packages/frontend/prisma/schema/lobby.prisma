@@ -15,10 +15,10 @@ model Lobby {
 model LobbyMember {
   id Int @id @default(autoincrement())
 
-  lobbyId String @unique
+  lobbyId String
   lobby   Lobby  @relation(fields: [lobbyId], references: [id], onDelete: Cascade)
 
-  userId String @unique
+  userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())

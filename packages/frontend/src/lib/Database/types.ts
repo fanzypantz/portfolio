@@ -4,7 +4,7 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
-import type { GameStatus, Role } from "./enums";
+import type { GameStatus, GameTypes, Role } from "./enums";
 
 export type ChatMessage = {
     id: string;
@@ -16,10 +16,11 @@ export type ChatMessage = {
 };
 export type Game = {
     id: string;
+    type: GameTypes;
     startedAt: Timestamp | null;
     finishedAt: Timestamp | null;
     status: Generated<GameStatus>;
-    lobbyId: string;
+    lobbyId: string | null;
     ownerId: string;
     winnerId: string | null;
     createdAt: Generated<Timestamp>;
