@@ -9,11 +9,12 @@ import JoinLobbyForm from "@components/Lobby/JoinLobbyForm";
 import { UserContext } from "@components/Auth/UserProvider";
 import { useLobbyStore } from "@/lib/Lobby/stores/lobbyStore";
 import { JoinStatus, LobbyStatus } from "@lib/Lobby/enums";
+import CreateGameForm from "@components/Lobby/CreateGameForm";
 
 const Lobby = () => {
   const { user } = useContext(UserContext);
 
-  const { currentLobby, joinStatus, lobbyStatus, setLobbyStatus } = useLobbyStore();
+  const { currentLobby, joinStatus, lobbyStatus, currentGame, setLobbyStatus, closeGame } = useLobbyStore();
 
   return (
     <div className={styles.container}>
@@ -28,6 +29,10 @@ const Lobby = () => {
       )}
 
       {joinStatus === JoinStatus.Joined && currentLobby && user && <LobbyInfo lobby={currentLobby} user={user} />}
+      {joinStatus === JoinStatus.Joined && currentLobby && user && !currentGame && <CreateGameForm />}
+      {joinStatus === JoinStatus.Joined && currentLobby && user && currentGame && (
+        <button onClick={() => closeGame()}>Close Game</button>
+      )}
       {joinStatus === JoinStatus.Joined && currentLobby && <LobbyChat />}
 
       {lobbyStatus === LobbyStatus.Create && !currentLobby && <CreateLobbyForm />}

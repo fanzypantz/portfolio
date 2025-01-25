@@ -1,4 +1,5 @@
 import "server-only";
+
 import { getSessionPayload } from "@lib/Auth/sessions";
 import prisma from "@db/prisma";
 import { LobbyType } from "@lib/Lobby/types";
@@ -26,7 +27,7 @@ export const getLobby = async (lobbyId: string): Promise<{ error?: string; lobby
   });
 
   if (!lobby) {
-    return { error: "Failed to create lobby" };
+    return { error: "Failed to find lobby" };
   }
 
   delete (lobby as any).password;

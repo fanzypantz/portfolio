@@ -7,7 +7,7 @@ import { removeLobbyIdCookie } from "@lib/Lobby/lobbyStorage";
 
 export const leaveLobbyAction = async (): Promise<boolean> => {
   const user = await getSessionPayload();
-  if (!user) {
+  if (!user || !user.id) {
     return false;
   }
 
@@ -30,16 +30,10 @@ export const leaveLobbyAction = async (): Promise<boolean> => {
   }
 
   if (lobby.lobbyMembers.find((member) => member.userId === user.id)) {
-    const result = await prisma.lobby.update({
+    const result = await prisma.lobbyMember.deleteMany({
       where: {
-        id: lobby.id
-      },
-      data: {
-        lobbyMembers: {
-          delete: {
-            userId: user.id
-          }
-        }
+        lobbyId: lobby.id,
+        userId: user.id
       }
     });
 

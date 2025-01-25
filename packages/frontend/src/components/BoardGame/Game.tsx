@@ -6,6 +6,8 @@ import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
 const Game = () => {
   const { currentGame, currentGameType } = useLobbyStore();
 
+  console.log(currentGame, currentGameType);
+
   if (!currentGame) {
     return null; // TODO: Add loading screen
   }

@@ -10,10 +10,11 @@ const CreateLobbyForm = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleCreateLobby = (e: FormEvent<HTMLFormElement>) => {
+  const handleCreateLobby = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    createLobby(name, password);
+    const result = await createLobby(name, password);
+    console.log(result);
   };
 
   return (

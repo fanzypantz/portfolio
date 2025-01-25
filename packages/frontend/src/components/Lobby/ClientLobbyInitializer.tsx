@@ -14,7 +14,7 @@ function ClientLobbyInitializer({
   loadedMessages: ChatMessageType[] | null;
 }) {
   const setCurrentLobby = useLobbyStore((state) => state.setCurrentLobby);
-  const setPlayers = useLobbyStore((state) => state.setPlayers);
+  const setLobbyMembers = useLobbyStore((state) => state.setLobbyMembers);
   const setJoinStatus = useLobbyStore((state) => state.setJoinStatus);
   const setMessages = useLobbyStore((state) => state.setMessages);
 
@@ -22,7 +22,7 @@ function ClientLobbyInitializer({
     async function initializeLobby() {
       if (loadedLobby) {
         setCurrentLobby(loadedLobby);
-        setPlayers(loadedLobby.lobbyMembers.map((member) => member.user));
+        setLobbyMembers(loadedLobby.lobbyMembers.map((member) => member.user));
         setJoinStatus(JoinStatus.Joined);
       }
       if (loadedMessages) {
@@ -31,7 +31,7 @@ function ClientLobbyInitializer({
     }
 
     initializeLobby();
-  }, [loadedLobby, setCurrentLobby, setJoinStatus, setPlayers]);
+  }, [loadedLobby, setCurrentLobby, setJoinStatus, setLobbyMembers]);
 
   return null; // This component is for side effects only
 }

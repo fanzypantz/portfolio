@@ -4,7 +4,7 @@ import { Lobby, User } from "@prisma/client";
 import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
 
 const LobbyInfo = ({ lobby, user }: { lobby: Lobby; user: User }) => {
-  const { currentLobby, players, createGame, closeGame, currentGameType, leaveLobby } = useLobbyStore();
+  const { currentLobby, lobbyMembers, leaveLobby } = useLobbyStore();
 
   if (!user) {
     return null;
@@ -17,16 +17,10 @@ const LobbyInfo = ({ lobby, user }: { lobby: Lobby; user: User }) => {
 
       <div>
         <div>Players:</div>
-        {players.map((player) => (
+        {lobbyMembers.map((player) => (
           <div key={player.id}>{player.username}</div>
         ))}
       </div>
-
-      {currentGameType ? (
-        <button onClick={() => closeGame()}>Close Game</button>
-      ) : (
-        <button onClick={() => createGame()}>Create Game</button>
-      )}
     </div>
   );
 };

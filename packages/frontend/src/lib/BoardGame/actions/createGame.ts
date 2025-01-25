@@ -2,8 +2,9 @@
 
 import { getSessionPayload } from "@lib/Auth/sessions";
 import prisma from "@db/prisma";
+import { GameTypes } from ".prisma/client";
 
-export const createGameAction = async (lobbyId: string) => {
+export const createGameAction = async (lobbyId: string, gameType: GameTypes) => {
   const user = await getSessionPayload();
   if (!user) {
     return;
@@ -11,6 +12,7 @@ export const createGameAction = async (lobbyId: string) => {
 
   return prisma.game.create({
     data: {
+      type: gameType,
       lobby: {
         connect: {
           id: lobbyId

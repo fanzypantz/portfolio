@@ -17,6 +17,8 @@ export const getLobbyIdCookie = async (): Promise<string | undefined> => {
 };
 
 export const removeLobbyIdCookie = async () => {
+  console.log("Removing lobbyId cookie");
+
   const cookieStore = await cookies();
 
   cookieStore.delete("lobbyId");
