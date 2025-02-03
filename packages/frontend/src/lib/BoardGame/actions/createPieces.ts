@@ -7,7 +7,7 @@ import prisma from "@db/prisma";
 export const createPiecesAction = async (gameId: string, pieces: Prisma.GamePieceCreateManyInput[]) => {
   const user = await getSessionPayload();
   if (!user) {
-    return false;
+    return;
   }
 
   const game = await prisma.game.findUnique({
@@ -18,11 +18,17 @@ export const createPiecesAction = async (gameId: string, pieces: Prisma.GamePiec
   });
 
   if (!game) {
-    return false;
+    return;
   }
 
-  return prisma.gamePiece.createMany({
+  const pieces = await prisma.gamePiece.createMany({
     data: pieces,
     skipDuplicates: true
+  });
+
+  return prisma.gamePiece.findMany({
+    where: {
+      gameId: gameId
+    }
   });
 };

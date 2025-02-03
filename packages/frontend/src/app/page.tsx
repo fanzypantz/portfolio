@@ -36,7 +36,6 @@ export default async function Home() {
     <main className={styles.main}>
       {user && <ClientLobbyInitializer loadedLobby={lobby || null} loadedMessages={messages || null} />}
       {user && <Lobby />}
-
       <Game />
     </main>
   );

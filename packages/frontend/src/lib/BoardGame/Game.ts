@@ -3,7 +3,6 @@ import { Board } from "@lib/BoardGame/Board";
 import { Player } from "@lib/BoardGame/Player";
 import { Move, AbstractMove } from "@lib/BoardGame/Move";
 import { GameScore } from "@lib/BoardGame/GameScore";
-import { SupabaseClient } from "@supabase/supabase-js";
 import { movePieceAction } from "@lib/BoardGame/actions/movePiece";
 
 export interface Game {
@@ -23,11 +22,11 @@ export class AbstractGame implements Game {
   private readonly gamePlayers: Player[];
   private readonly gameMoves: Move[];
   private readonly gameScore: GameScore;
-  public readonly game_id: number;
+  public readonly gameId: string;
   private gameMovesIndex: number;
 
-  constructor(game_id: number, gameBoard: Board, gamePlayers: Player[], gameScore: GameScore) {
-    this.game_id = game_id;
+  constructor(gameId: string, gameBoard: Board, gamePlayers: Player[], gameScore: GameScore) {
+    this.gameId = gameId;
     this.gameBoard = gameBoard;
     this.gamePlayers = gamePlayers;
     this.gameScore = gameScore;
@@ -69,7 +68,7 @@ export class AbstractGame implements Game {
   }
 
   async saveMove(from: Position, to: Position) {
-    await movePieceAction(this.game_id, "", from.currentPosition, to.currentPosition);
+    await movePieceAction(this.gameId, 1, from.currentPosition, to.currentPosition);
   }
 
   public undoMove(): void {

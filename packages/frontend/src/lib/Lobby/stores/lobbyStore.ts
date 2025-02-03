@@ -13,6 +13,11 @@ import { AbstractBoard } from "@lib/BoardGame/Board";
 import { AbstractPlayer } from "@lib/BoardGame/Player";
 import { AbstractGameScore } from "@lib/BoardGame/GameScore";
 import { GameTypes } from ".prisma/client";
+import ChessBoard from "@lib/Chess/ChessBoard";
+import { PieceColor } from "@lib/BoardGame/Piece";
+import ChessGame from "@lib/Chess/ChessGame";
+import { createChessGame } from "@lib/Chess/utils/createChessGame";
+import { createGame } from "@lib/BoardGame/utils";
 
 interface LobbyStore {
   // Lobby State
@@ -41,7 +46,7 @@ interface LobbyStore {
   currentPieces: GamePiece[] | null;
   setCurrentGame: (game: Game | null) => void;
   setCurrentPieces: (pieces: GamePiece[] | null) => void;
-  createGame: (gameType: GameTypes) => Promise<void>;
+  createGame: (gameType: GameTypes) => Promise<boolean>;
   closeGame: () => Promise<void>;
 
   // Board Game State
@@ -160,11 +165,29 @@ export const useLobbyStore = create<LobbyStore>((set, get) => ({
     const { currentLobby } = get();
     if (!currentLobby) {
       console.error("No current lobby available");
-      return;
+      return false;
     }
     const data = await createGameAction(currentLobby.id, gameType);
 
+    if (!data) {
+      console.error("Game not created");
+      return false;
+    }
+
     set({ currentGame: data });
+
+    const { game, board, players, gameScore } = createGame(gameType, data.id);
+
+    await board.initBoard();
+
+    set({
+      game,
+      board,
+      players,
+      gameScore
+    });
+
+    return true;
   },
 
   closeGame: async () => {

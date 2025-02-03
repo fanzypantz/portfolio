@@ -2,7 +2,7 @@ import { Tile, AbstractTile } from "@lib/BoardGame/Tile";
 import { Position, BoardPosition } from "@lib/BoardGame/Position";
 import { Piece } from "@lib/BoardGame/Piece";
 import { action, makeObservable, observable } from "mobx";
-import { Tables } from "@supabase/database.types";
+import { GamePiece } from "@prisma/client";
 
 export interface Board {
   get width(): number;
@@ -15,8 +15,7 @@ export interface Board {
   addPiece(piece: Piece): void;
   removePiece(piece: Piece): void;
 
-  initBoard(): Promise<void>;
-  initBoardFromDatabase(pieces: Tables<"pieces">[]): Promise<void>;
+  initBoard(pieces?: GamePiece[]): Promise<boolean>;
   inBounds(position: Position): boolean;
   isValidPosition(position: Position): boolean;
   selectPiece(piece: Piece): void;
@@ -26,7 +25,7 @@ export interface Board {
 }
 
 export class AbstractBoard implements Board {
-  readonly game_id: number;
+  readonly gameId: string;
   private readonly boardWidth: number;
   private readonly boardHeight: number;
   public readonly boardTiles: Tile[][] = [];
@@ -34,10 +33,10 @@ export class AbstractBoard implements Board {
   public capturedPieces: Piece[] = [];
   public selectedPiece: Piece | undefined = undefined;
 
-  constructor(width: number, height: number, game_id: number) {
+  constructor(width: number, height: number, gameId: string) {
     this.boardWidth = width;
     this.boardHeight = height;
-    this.game_id = game_id;
+    this.gameId = gameId;
 
     this.boardTiles = Array.from({ length: height }, (_, y) =>
       Array.from({ length: width }, (_, x) => new AbstractTile(new BoardPosition(x, y)))
@@ -85,12 +84,12 @@ export class AbstractBoard implements Board {
     this.boardPieces = this.boardPieces.filter((p) => p !== piece);
   }
 
-  public initBoard(): Promise<void> {
-    throw new Error("Method not implemented.");
+  public initBoard(pieces?: GamePiece[]): Promise<boolean> {
+    throw new Error(`Method not implemented. ${JSON.stringify(pieces)}`);
   }
 
-  public async initBoardFromDatabase(pieces: Tables<"pieces">[]): Promise<void> {
-    throw new Error("Method not implemented.");
+  public async initBoardFromDatabase(pieces: GamePiece[]): Promise<boolean> {
+    throw new Error(`Method not implemented. ${JSON.stringify(pieces)}`);
   }
 
   public inBounds(position: Position): boolean {

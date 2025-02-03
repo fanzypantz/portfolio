@@ -8,15 +8,19 @@ import Bishop from "@lib/Chess/Bishop";
 import Knight from "@lib/Chess/Knight";
 import Queen from "@lib/Chess/Queen";
 import King from "@lib/Chess/King";
-import { Tables } from "@supabase/database.types";
 import { createPiecesAction } from "@lib/BoardGame/actions/createPieces";
+import { GamePiece, Prisma } from "@prisma/client";
 
 class ChessBoard extends AbstractBoard {
-  constructor(game_id: number) {
-    super(8, 8, game_id);
+  constructor(gameId: string) {
+    super(8, 8, gameId);
   }
 
-  async initBoard(): Promise<void> {
+  async initBoard(pieces?: GamePiece[]): Promise<boolean> {
+    if (pieces) {
+      return this.initBoardFromDatabase(pieces);
+    }
+
     // Initialize the board with the pieces in their starting positions
     for (let i = 0; i < this.width; i++) {
       this.addPiece(new Pawn(PieceColor.White, new BoardPosition(i, 1)));
@@ -51,27 +55,34 @@ class ChessBoard extends AbstractBoard {
 
     // TODO think about moving this
     // Initialize the pieces in the database
-    const pieces = this.boardPieces.map((piece) => {
+    const newPieces: Prisma.GamePieceCreateManyInput[] = this.boardPieces.map((piece) => {
       return {
-        game_id: this.game_id,
-        x_coordinate: piece.position.x,
-        y_coordinate: piece.position.y,
+        gameId: this.gameId,
+        xPos: piece.position.x,
+        yPos: piece.position.y,
         color: piece.color,
         type: piece.type
       };
     });
 
-    const { data, error } = await createPiecesAction(this.game_id, pieces);
+    const data = await createPiecesAction(this.gameId, newPieces);
 
-    console.log("initiated database : ", data);
+    if (!data) {
+      console.error("Pieces not created");
+      return false;
+    }
+
+    await this.initBoardFromDatabase(data);
+
+    return true;
   }
 
-  async initBoardFromDatabase(pieces: Tables<"pieces">[]): Promise<void> {
+  async initBoardFromDatabase(pieces: GamePiece[]): Promise<boolean> {
     // Initialize the board with the pieces in their starting positions
     for (const piece of pieces) {
       const pieceColor = piece.color === "White" ? PieceColor.White : PieceColor.Black;
       const pieceType = piece.type;
-      const piecePosition = new BoardPosition(piece.x_coordinate || 0, piece.y_coordinate || 0);
+      const piecePosition = new BoardPosition(piece.xPos || 0, piece.yPos || 0);
 
       switch (pieceType) {
         case "Pawn":
@@ -96,6 +107,8 @@ class ChessBoard extends AbstractBoard {
           throw new Error("Invalid piece type");
       }
     }
+
+    return true;
   }
 }
 

@@ -10,14 +10,10 @@ import { ChessContext } from "@components/Chess/chessProvider";
 
 import ChessTilesMesh from "@components/Chess/ChessTilesMesh";
 
-// Game classes
-import { Piece, PieceColor } from "@lib/BoardGame/Piece";
-
 // Board
 import ChessBoardBaseMesh from "@components/Chess/ChessBoardBaseMesh";
 
 // Pieces
-import ChessPiece from "@components/Chess/ChessPiece";
 import ChessPieces from "@components/Chess/ChessPieces";
 import CapturedPieces from "@components/Chess/CapturedPieces";
 
